@@ -1,0 +1,32 @@
+{
+  "title": "Pictusel",
+  "description": "Picture Carousel",
+  "majorVersion": 1,
+  "minorVersion": 1,
+  "patchVersion": 0,
+  "runnable": 1,
+  "author": "Falcon",
+  "license": "MIT",
+  "fullscreen": 1,
+  "embedTypes": [
+    "iframe"
+  ],
+  "machineName": "H5P.Pictusel",
+  "preloadedJs": [
+    {
+      "path": "pictusel.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "pictusel.css"
+    }
+  ],
+  "editorDependencies": [
+    {
+      "machineName": "H5PEditor.ShowWhen",
+      "majorVersion": 1,
+      "minorVersion": 0
+    }
+  ]
+}
