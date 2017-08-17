@@ -120,13 +120,17 @@ H5P.Pictusel = (function ($) {
   
   C.prototype.attachControls = function() {
     var self = this;
-    this.$leftButton = this.createControlButton(this.options.i18n.left, 'h5p-pictusel-left-button');
-    this.$rightButton = this.createControlButton(this.options.i18n.right, 'h5p-pictusel-right-button');
+    this.$leftButton = this.createControlButton(this.options.i18n.left, 'left');
+    this.$rightButton = this.createControlButton(this.options.i18n.right, 'right');
     this.$leftButton.click(function() {
-      self.gotoSlide(self.currentSlideId - 1);
+      if (!self.dragging) {
+        self.gotoSlide(self.currentSlideId - 1);
+      }
     });
     this.$rightButton.click(function() {
-      self.gotoSlide(self.currentSlideId + 1);
+      if (!self.dragging) {
+        self.gotoSlide(self.currentSlideId + 1);
+      }
     });
     this.$slidesHolder.append(this.$leftButton);
     this.$slidesHolder.append(this.$rightButton);
@@ -158,20 +162,20 @@ H5P.Pictusel = (function ($) {
     return $progressBarElement;
   };
   
-  C.prototype.createControlButton = function(text, extraClasses) {
+  C.prototype.createControlButton = function(text, dir) {
     var $controlButton = $('<div>', {
-      class: 'h5p-pictusel-button ' + extraClasses,
+      class: 'h5p-pictusel-button ' + 'h5p-pictusel-' + dir + '-button',
     });
     
     var $controlBg = $('<div>', {
-      class: 'h5p-pictusel-button-background',
+      class: 'h5p-pictusel-button-background'
     });
      $controlButton.append($controlBg);
     
-    // todo: Can we use text like this?
+    // TODO: Add real aria label
     var $controlText = $('<div>', {
       class: 'h5p-pictusel-button-text',
-      'aria-label': 'text',
+      'aria-label': 'text'
     });
     $controlButton.append($controlText);
     
