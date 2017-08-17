@@ -183,6 +183,9 @@ H5P.Pictusel = (function ($) {
   };
   
   C.prototype.gotoSlide = function(slideId) {
+    if (slideId < 0 || slideId >= this.pictuSlideHolders.length) {
+      return;
+    }
     $('.h5p-pictusel-removing', this.$container).removeClass('.h5p-pictusel-removing');
     var nextSlideDirection = (this.currentSlideId < slideId) ? 'future' : 'past';
     var prevSlideDirection = nextSlideDirection === 'past' ? 'future' : 'past';
