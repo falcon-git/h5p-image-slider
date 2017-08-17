@@ -252,6 +252,11 @@ H5P.Pictusel = (function ($) {
       self.dragging = true;
       self.dragStartX = event.originalEvent.touches[0].pageX;
       self.$currentSlide.addClass('h5p-pictusel-dragging');
+      if (self.isButton(event.target)) {
+        event.preventDefault();
+        var d = new Date();
+        self.dragStartTime = d.getTime();
+      }
     });
     
     this.$slidesHolder.on('touchmove', function(event) {
@@ -261,12 +266,39 @@ H5P.Pictusel = (function ($) {
     
     this.$slidesHolder.on('touchend', function(event) {
       self.finishDragAction();
+      if (self.dragStartTime !== false && self.isButton(event.target)) {
+        // This was possibly a click
+        var d = new Date();
+        if (d.getTime() - self.dragStartTime < 300) {
+          if (self.isRightButton(event.target)) {
+            self.gotoSlide(self.currentSlideId + 1);
+          }
+          else {
+            self.gotoSlide(self.currentSlideId - 1);
+          }
+        }
+      }
+      self.dragStartTime = false;
     });
     
     this.$slidesHolder.on('touchcancel', function(event) {
       self.finishDragAction();
+      self.dragStartTime = false;
     });
   };
+
+  C.prototype.isButton = function (domElement) {
+    var $target = $(domElement);
+    return $target.hasClass('h5p-pictusel-button-background')
+      || $target.hasClass('h5p-pictusel-button-text')
+      || $target.hasClass('h5p-pictusel-button');
+  }
+
+  C.prototype.isRightButton = function (domElement) {
+    var $target = $(domElement);
+    return $target.hasClass('h5p-pictusel-right-button')
+      || $target.parent().hasClass('h5p-pictusel-right-button');
+  }
   
   C.prototype.dragActionUpdate = function(x) {
     this.dragXMovement = x - this.dragStartX;
