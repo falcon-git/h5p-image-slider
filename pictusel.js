@@ -53,13 +53,19 @@ H5P.Pictusel = (function ($) {
     this.on('resize', function() {
       var fullScreenOn = self.$container.hasClass('h5p-fullscreen') || self.$container.hasClass('h5p-semi-fullscreen');
       if (fullScreenOn) {
+            self.$slides.css('height', '');
         var newAspectRatio = window.innerWidth / (window.innerHeight - self.$progressBar.outerHeight());
         for (var i = 0; i < self.pictuSlides.length; i++) {
           self.pictuSlides[i].setAspectRatio(newAspectRatio);
         }
       }
-      this.updateNavButtons();
-      this.updateProgressBar();
+      else {
+        if (self.aspectRatio && self.$slides) {
+          self.$slides.height(self.$slides.width() / self.aspectRatio);
+        }
+      }
+      self.updateNavButtons();
+      self.updateProgressBar();
     });
   };
 
@@ -91,16 +97,11 @@ H5P.Pictusel = (function ($) {
   };
   
   C.prototype.enterFullScreen = function() {
-    self.$slides.css('height', '');
     this.updateNavButtons();
     this.updateProgressBar();
   };
   
   C.prototype.exitFullScreen = function() {
-    if (this.aspectRatio && this.$slides) {
-      this.$slides.height(this.$slides.width() / this.aspectRatio);
-    }
-    
     for (var i = 0; i < this.pictuSlides.length; i++) {
       this.pictuSlides[i].resetAspectRatio();
     }
