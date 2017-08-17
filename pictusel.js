@@ -91,11 +91,16 @@ H5P.Pictusel = (function ($) {
   };
   
   C.prototype.enterFullScreen = function() {
-      this.updateNavButtons();
-      this.updateProgressBar();
+    self.$slides.css('height', '');
+    this.updateNavButtons();
+    this.updateProgressBar();
   };
   
   C.prototype.exitFullScreen = function() {
+    if (this.aspectRatio && this.$slides) {
+      this.$slides.height(this.$slides.width() / this.aspectRatio);
+    }
+    
     for (var i = 0; i < this.pictuSlides.length; i++) {
       this.pictuSlides[i].resetAspectRatio();
     }
