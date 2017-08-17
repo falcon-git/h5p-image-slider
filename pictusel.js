@@ -59,6 +59,7 @@ H5P.Pictusel = (function ($) {
         }
       }
       this.updateNavButtons();
+      this.updateProgressBar();
     });
   };
 
