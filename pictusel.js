@@ -200,7 +200,9 @@ H5P.Pictusel = (function ($) {
     this.loadPictuSlides();
     var $prevSlide = this.$currentSlide;
     var $nextSlide = (this.pictuSlideHolders[slideId]);
-    this.prepareNextSlideForAnimation($nextSlide, nextSlideDirection);
+    if (!this.dragging) {
+      this.prepareNextSlideForAnimation($nextSlide, nextSlideDirection);
+    }
     setTimeout(function() {
       $nextSlide.removeClass('h5p-pictusel-no-transition');
       $prevSlide.removeClass('h5p-pictusel-current')
@@ -336,7 +338,6 @@ H5P.Pictusel = (function ($) {
     $('.h5p-pictusel-dragging', this.$container).removeClass('h5p-pictusel-dragging').each(function() {
       this.style.removeProperty('transform');
     });
-    this.dragging = false;
     this.dragStartX = undefined;
     var xInPercent = this.dragXMovement / this.$currentSlide.width();
     if (xInPercent < -0.3) {
@@ -355,6 +356,7 @@ H5P.Pictusel = (function ($) {
         this.$currentSlide.css('transform', 'translateX(0%)');
       }
     }
+    this.dragging = false;
     this.dragXMovement = 0;
   };
 
