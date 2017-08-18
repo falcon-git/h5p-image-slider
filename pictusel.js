@@ -213,6 +213,7 @@ H5P.Pictusel = (function ($) {
     }, 1);
    
     this.$currentSlide = $nextSlide;
+
     this.updateNavButtons();
     this.updateProgressBar();
   };
@@ -261,6 +262,7 @@ H5P.Pictusel = (function ($) {
       self.$currentSlide.addClass('h5p-pictusel-dragging');
       if (self.isButton(event.target)) {
         event.preventDefault();
+        event.stopPropagation();
         var d = new Date();
         self.dragStartTime = d.getTime();
       }
@@ -327,8 +329,7 @@ H5P.Pictusel = (function ($) {
       else {
         $nextSlide.css('transform', 'translateX(' +(this.dragXMovement + $nextSlide.width()) + 'px)');
       }
-    }
-    
+    } 
   };
   
   C.prototype.finishDragAction = function() {
@@ -354,6 +355,7 @@ H5P.Pictusel = (function ($) {
         this.$currentSlide.css('transform', 'translateX(0%)');
       }
     }
+    this.dragXMovement = 0;
   };
 
   return C;
