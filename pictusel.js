@@ -144,6 +144,7 @@ H5P.Pictusel = (function ($) {
     this.updateNavButtons();
     this.attachProgressBar();
     this.initDragging();
+    this.initKeyEvents();
   };
   
   C.prototype.attachProgressBar = function() {
@@ -191,7 +192,7 @@ H5P.Pictusel = (function ($) {
   
   C.prototype.gotoSlide = function(slideId) {
     if (slideId < 0 || slideId >= this.pictuSlideHolders.length) {
-      return;
+      return false;
     }
     $('.h5p-pictusel-removing', this.$container).removeClass('.h5p-pictusel-removing');
     var nextSlideDirection = (this.currentSlideId < slideId) ? 'future' : 'past';
@@ -218,6 +219,7 @@ H5P.Pictusel = (function ($) {
 
     this.updateNavButtons();
     this.updateProgressBar();
+    return true;
   };
   
   C.prototype.prepareNextSlideForAnimation = function($nextSlide, direction) {
@@ -296,6 +298,33 @@ H5P.Pictusel = (function ($) {
       self.finishDragAction();
       self.dragStartTime = false;
     });
+  };
+
+    /**
+   * Initialize key press events.
+   *
+   * @returns {undefined} Nothing.
+   */
+  C.prototype.initKeyEvents = function () {
+    if (this.keydown !== undefined) {
+      return;
+    }
+
+    var self = this;
+
+    this.keydown = function (event) {
+
+      // Left
+      if (event.keyCode === 37) {
+        self.gotoSlide(self.currentSlideId - 1);
+      }
+
+      // Right
+      else if (event.keyCode === 39) {
+        self.gotoSlide(self.currentSlideId + 1);
+      }
+    };
+    H5P.jQuery('body').keydown(this.keydown);
   };
 
   C.prototype.isButton = function (domElement) {
