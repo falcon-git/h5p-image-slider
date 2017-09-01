@@ -118,10 +118,12 @@
   display: block;
 }
 .h5p-pictusel-future {
-  transform: translateX(100.1%);
+  transform: translateX(100.0%);
+  left: 1px;
 }
 .h5p-pictusel-past {
-  transform: translateX(-100.1%);
+  transform: translateX(-100.0%);
+  right: 1px;
 }
 .h5p-pictusel-removing {
   display: block;
