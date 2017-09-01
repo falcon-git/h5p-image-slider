@@ -23,6 +23,7 @@
   text-align: right;
   color: #FFFFFF;
   cursor: pointer;
+  z-index: 3;
 }
 
 .h5p-pictusel-button-text {
@@ -100,7 +101,6 @@
 }
 
 .h5p-pictu-slide-holder {
-  transition: transform 0.3s;
   float: left;
   margin-left: -100%;
 }
@@ -114,19 +114,30 @@
   margin-left: 0;
 }
 .h5p-pictu-slide-holder.h5p-pictusel-current {
+  transition: transform 0.3s;
   transform: translateX(0);
   display: block;
+  z-index: 2;
 }
 .h5p-pictusel-future {
-  transform: translateX(100.0%);
-  left: 1px;
+  transition: transform 0.35s;
+  transform: translateX(101.0%);
 }
 .h5p-pictusel-past {
-  transform: translateX(-100.0%);
-  right: 1px;
+  transition: transform 0.35s;
+  transform: translateX(-101.0%);
 }
 .h5p-pictusel-removing {
   display: block;
+}
+.h5p-pictusel-past.h5p-pictusel-no-transition {
+  transform: translateX(-100.0%);
+}
+.h5p-pictusel-future.h5p-pictusel-no-transition {
+  transform: translateX(100.0%);
+}
+.h5p-content-controls {
+  z-index: 4;
 }
 .h5p-pictusel .h5p-enable-fullscreen {
   width: 2.25em;
