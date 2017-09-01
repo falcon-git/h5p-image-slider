@@ -118,11 +118,28 @@
   display: block;
 }
 .h5p-pictusel-future {
-  transform: translateX(100.001%);
+  transform: translateX(100.1%);
 }
 .h5p-pictusel-past {
-  transform: translateX(-100.001%);
+  transform: translateX(-100.1%);
 }
 .h5p-pictusel-removing {
   display: block;
+}
+.h5p-pictusel .h5p-enable-fullscreen {
+  width: 2.25em;
+  height: 1.83em;
+  background: no-repeat url('images/full-screen-enter.svg');
+  background-color: rgba(0,0,0,0.25);
+  background-size: 1em 1em;
+  background-position: 0.625em 0.415em;
+  font-size: 1em;
+}
+
+.h5p-pictusel .h5p-enable-fullscreen:before {
+  content: '';
+}
+
+.h5p-pictusel .h5p-enable-fullscreen:hover {
+  background-color: rgba(0,0,0,0.35);
 }
