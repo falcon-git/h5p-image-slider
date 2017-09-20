@@ -31,9 +31,12 @@ H5P.Pictusel = (function ($) {
     this.pictuSlides = [];
     this.pictuSlideHolders = [];
     this.aspectRatio = undefined;
+
     if (this.options.isFixedAspectRatio && this.options.aspectRatio.aspectWidth && this.options.aspectRatio.aspectHeight) {
       this.aspectRatio = this.options.aspectRatio.aspectWidth / this.options.aspectRatio.aspectHeight;
     }
+
+    // Initialize slides
     for (var i = 0; i < this.options.pictuSlides.length; i++) {
       this.pictuSlides[i] = H5P.newRunnable(this.options.pictuSlides[i], this.id, undefined, undefined, {
         aspectRatio: this.aspectRatio
@@ -50,10 +53,11 @@ H5P.Pictusel = (function ($) {
     this.on('exitFullScreen', function(){
       self.exitFullScreen();
     });
+
     this.on('resize', function() {
       var fullScreenOn = self.$container.hasClass('h5p-fullscreen') || self.$container.hasClass('h5p-semi-fullscreen');
       if (fullScreenOn) {
-            self.$slides.css('height', '');
+        self.$slides.css('height', '');
         var newAspectRatio = window.innerWidth / (window.innerHeight - self.$progressBar.outerHeight());
         for (var i = 0; i < self.pictuSlides.length; i++) {
           self.pictuSlides[i].setAspectRatio(newAspectRatio);
@@ -96,11 +100,21 @@ H5P.Pictusel = (function ($) {
     this.attachControls();
   };
   
+  /**
+   * Update layout when entering fullscreen.
+   * 
+   * Many layout changes are handled on resize.
+   */
   C.prototype.enterFullScreen = function() {
     this.updateNavButtons();
     this.updateProgressBar();
   };
   
+  /**
+   * Update layout when entering fullscreen.
+   * 
+   * Many layout changes are handled on resize.
+   */
   C.prototype.exitFullScreen = function() {
     for (var i = 0; i < this.pictuSlides.length; i++) {
       this.pictuSlides[i].resetAspectRatio();
@@ -109,6 +123,9 @@ H5P.Pictusel = (function ($) {
     this.updateProgressBar();
   };
   
+  /**
+   * Adds the HTML for the next three slides to the DOM
+   */
   C.prototype.loadPictuSlides = function() {
     // Load next three pictuSlides (not all for performance reasons)
     for (var i = this.currentSlideId; i < this.pictuSlides.length && i < this.currentSlideId + 3; i++) {
@@ -125,6 +142,9 @@ H5P.Pictusel = (function ($) {
     }
   };
   
+  /**
+   * Attaches controls to the DOM
+   */
   C.prototype.attachControls = function() {
     var self = this;
     this.$leftButton = this.createControlButton(this.options.i18n.left, 'left');
@@ -147,6 +167,9 @@ H5P.Pictusel = (function ($) {
     this.initKeyEvents();
   };
   
+  /**
+   * Attaches the progress bar to the DOM
+   */
   C.prototype.attachProgressBar = function() {
     this.$progressBar = $('<ul>', {
       class: 'h5p-pictusel-progress'
@@ -157,6 +180,12 @@ H5P.Pictusel = (function ($) {
     this.$slidesHolder.append(this.$progressBar);
   };
   
+  /**
+   * Creates a progress bar button
+   * 
+   * @param {Integer} index  - slide index the progress bare element corresponds to
+   * @return {jQuery} - progress bar button
+   */
   C.prototype.createProgressBarElement = function(index) {
     var self = this;
     var $progressBarElement = $('<li>', {
@@ -170,6 +199,13 @@ H5P.Pictusel = (function ($) {
     return $progressBarElement;
   };
   
+  /**
+   * Creates a next or previous button
+   * 
+   * @param {string} text - label for the button
+   * @param {string} dir - next or prev
+   * @return {jQuery} control button
+   */
   C.prototype.createControlButton = function(text, dir) {
     var $controlButton = $('<div>', {
       class: 'h5p-pictusel-button ' + 'h5p-pictusel-' + dir + '-button',
