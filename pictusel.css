@@ -107,6 +107,7 @@
 
 .h5p-pictusel-dragging {
   transition: none;
+  left: 0 !important;
 }
 
 .h5p-pictu-slide-holder:first-child {
@@ -114,27 +115,27 @@
   margin-left: 0;
 }
 .h5p-pictu-slide-holder.h5p-pictusel-current {
-  transition: transform 0.3s;
-  transform: translateX(0);
+  transition: left 0.32s;
+  left: 0;
   display: block;
   z-index: 2;
 }
 .h5p-pictusel-future {
-  transition: transform 0.35s;
-  transform: translateX(101.0%);
+  transition: left 0.35s;
+  left: 100.1%;
 }
 .h5p-pictusel-past {
-  transition: transform 0.35s;
-  transform: translateX(-101.0%);
+  transition: left 0.35s;
+  left: -100.1%;
 }
 .h5p-pictusel-removing {
   display: block;
 }
 .h5p-pictusel-past.h5p-pictusel-no-transition {
-  transform: translateX(-100.0%);
+  left: -100.0%;
 }
 .h5p-pictusel-future.h5p-pictusel-no-transition {
-  transform: translateX(100.0%);
+  left: 100.0%;
 }
 .h5p-content-controls {
   z-index: 4;
