@@ -7,6 +7,8 @@ H5P.Pictusel = (function ($) {
   function C(options, id) {
     this.$ = $(this);
     var self = this;
+
+    H5P.EventDispatcher.call(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
       pictuSlides: [
@@ -72,6 +74,9 @@ H5P.Pictusel = (function ($) {
       self.updateProgressBar();
     });
   };
+
+  C.prototype = Object.create(H5P.EventDispatcher.prototype);
+  C.prototype.constructor = C;
 
   /**
    * Attach function called by H5P framework to insert H5P content into
