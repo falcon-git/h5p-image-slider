@@ -106,7 +106,7 @@
 }
 
 .h5p-pictusel-dragging {
-  transition: none;
+  transition: none !important;
   left: 0 !important;
 }
 
