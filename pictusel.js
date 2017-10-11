@@ -7,6 +7,8 @@ H5P.Pictusel = (function ($) {
   function C(options, id) {
     this.$ = $(this);
     var self = this;
+
+    H5P.EventDispatcher.call(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
       pictuSlides: [
@@ -48,10 +50,11 @@ H5P.Pictusel = (function ($) {
     this.on('exitFullScreen', function(){
       self.exitFullScreen();
     });
+
     this.on('resize', function() {
       var fullScreenOn = self.$container.hasClass('h5p-fullscreen') || self.$container.hasClass('h5p-semi-fullscreen');
       if (fullScreenOn) {
-            self.$slides.css('height', '');
+        self.$slides.css('height', '');
         var newAspectRatio = window.innerWidth / (window.innerHeight - self.$progressBar.outerHeight());
         for (var i = 0; i < self.pictuSlides.length; i++) {
           self.pictuSlides[i].setAspectRatio(newAspectRatio);
@@ -66,6 +69,9 @@ H5P.Pictusel = (function ($) {
       self.updateProgressBar();
     });
   };
+
+  C.prototype = Object.create(H5P.EventDispatcher.prototype);
+  C.prototype.constructor = C;
 
   /**
    * Set the aspect ratio for this pictusel
@@ -124,11 +130,21 @@ H5P.Pictusel = (function ($) {
     this.attachControls();
   };
   
+  /**
+   * Update layout when entering fullscreen.
+   * 
+   * Many layout changes are handled on resize.
+   */
   C.prototype.enterFullScreen = function() {
     this.updateNavButtons();
     this.updateProgressBar();
   };
   
+  /**
+   * Update layout when entering fullscreen.
+   * 
+   * Many layout changes are handled on resize.
+   */
   C.prototype.exitFullScreen = function() {
     for (var i = 0; i < this.pictuSlides.length; i++) {
       this.pictuSlides[i].resetAspectRatio();
@@ -137,6 +153,9 @@ H5P.Pictusel = (function ($) {
     this.updateProgressBar();
   };
   
+  /**
+   * Adds the HTML for the next three slides to the DOM
+   */
   C.prototype.loadPictuSlides = function() {
     // Load next three pictuSlides (not all for performance reasons)
     for (var i = this.currentSlideId; i < this.pictuSlides.length && i < this.currentSlideId + 3; i++) {
@@ -153,6 +172,9 @@ H5P.Pictusel = (function ($) {
     }
   };
   
+  /**
+   * Attaches controls to the DOM
+   */
   C.prototype.attachControls = function() {
     var self = this;
     this.$leftButton = this.createControlButton(this.options.i18n.left, 'left');
@@ -175,6 +197,9 @@ H5P.Pictusel = (function ($) {
     this.initKeyEvents();
   };
   
+  /**
+   * Attaches the progress bar to the DOM
+   */
   C.prototype.attachProgressBar = function() {
     this.$progressBar = $('<ul>', {
       class: 'h5p-pictusel-progress'
@@ -185,6 +210,12 @@ H5P.Pictusel = (function ($) {
     this.$slidesHolder.append(this.$progressBar);
   };
   
+  /**
+   * Creates a progress bar button
+   * 
+   * @param {Integer} index  - slide index the progress bare element corresponds to
+   * @return {jQuery} - progress bar button
+   */
   C.prototype.createProgressBarElement = function(index) {
     var self = this;
     var $progressBarElement = $('<li>', {
@@ -198,6 +229,13 @@ H5P.Pictusel = (function ($) {
     return $progressBarElement;
   };
   
+  /**
+   * Creates a next or previous button
+   * 
+   * @param {string} text - label for the button
+   * @param {string} dir - next or prev
+   * @return {jQuery} control button
+   */
   C.prototype.createControlButton = function(text, dir) {
     var $controlButton = $('<div>', {
       class: 'h5p-pictusel-button ' + 'h5p-pictusel-' + dir + '-button',
@@ -218,6 +256,12 @@ H5P.Pictusel = (function ($) {
     return $controlButton;
   };
   
+  /**
+   * Go to a specific slide
+   * 
+   * @param {Integer} slideId the index of the slide we want to go to
+   * @return {Boolean} false if failed(typically the slide didn't exist), true if not
+   */
   C.prototype.gotoSlide = function(slideId) {
     if (slideId < 0 || slideId >= this.pictuSlideHolders.length) {
       return false;
@@ -250,6 +294,12 @@ H5P.Pictusel = (function ($) {
     return true;
   };
   
+  /**
+   * Position the next slide correctly so that it is ready to be aimated in
+   * 
+   * @param {jQuery} $nextSlide the slide to be prepared
+   * @param {String} direction prev or next
+   */
   C.prototype.prepareNextSlideForAnimation = function($nextSlide, direction) {
     $nextSlide.removeClass('h5p-pictusel-past')
       .removeClass('h5p-pictusel-future')
@@ -257,6 +307,9 @@ H5P.Pictusel = (function ($) {
       .addClass('h5p-pictusel-' + direction);
   };
   
+  /**
+   * Updates all navigation buttons, typically toggling and positioning
+   */
   C.prototype.updateNavButtons = function() {
     if (this.currentSlideId >= this.pictuSlides.length - 1) {
       this.$rightButton.hide();
@@ -279,6 +332,12 @@ H5P.Pictusel = (function ($) {
     this.$rightButton.css('height', heightInPercent + '%');
   };
   
+  /**
+   * Update the progress bar
+   * 
+   * Highlights the element in the progress bar corresponding to the current slide
+   * and reposition the progress bar
+   */
   C.prototype.updateProgressBar = function () {
     $('.h5p-pictusel-current-progress-element', this.$container).removeClass('h5p-pictusel-current-progress-element');
     $('.h5p-pictusel-progress-element', this.$container).eq(this.currentSlideId).addClass('h5p-pictusel-current-progress-element');
@@ -286,6 +345,9 @@ H5P.Pictusel = (function ($) {
     $('.h5p-pictusel-progress', this.$container).css('top', heightInPercent + '%');
   };
   
+  /**
+   * Make a slide draggable
+   */
   C.prototype.initDragging = function () {
     var self = this;
     this.$slidesHolder.on('touchstart', function(event) {
@@ -299,7 +361,7 @@ H5P.Pictusel = (function ($) {
         self.dragStartTime = d.getTime();
       }
     });
-    
+
     this.$slidesHolder.on('touchmove', function(event) {
       event.preventDefault();
       self.dragActionUpdate(event.originalEvent.touches[0].pageX);
@@ -328,7 +390,7 @@ H5P.Pictusel = (function ($) {
     });
   };
 
-    /**
+  /**
    * Initialize key press events.
    *
    * @returns {undefined} Nothing.
@@ -355,6 +417,12 @@ H5P.Pictusel = (function ($) {
     H5P.jQuery('body').keydown(this.keydown);
   };
 
+  /**
+   * Is the domElement a button?
+   * 
+   * @param {DOMElement} domElement the element to be checked
+   * @return {Boolean} whether or not the element is a button
+   */
   C.prototype.isButton = function (domElement) {
     var $target = $(domElement);
     return $target.hasClass('h5p-pictusel-button-background')
@@ -362,12 +430,21 @@ H5P.Pictusel = (function ($) {
       || $target.hasClass('h5p-pictusel-button');
   }
 
+  /**
+   * Is the element the right/next button?
+   * 
+   * @param {DOMElement} domElement the DOM element to be checked
+   * @return {Boolean} Whether or not the element is the right button
+   */
   C.prototype.isRightButton = function (domElement) {
     var $target = $(domElement);
     return $target.hasClass('h5p-pictusel-right-button')
       || $target.parent().hasClass('h5p-pictusel-right-button');
   }
   
+  /**
+   * Update the current and next slide in response to a drag action
+   */
   C.prototype.dragActionUpdate = function(x) {
     this.dragXMovement = x - this.dragStartX;
     this.$currentSlide.css('transform', 'translateX(' + this.dragXMovement + 'px)');
@@ -391,6 +468,11 @@ H5P.Pictusel = (function ($) {
     } 
   };
   
+  /**
+   * Actions to be done when a drag action is finished
+   * 
+   * Will either go back to the current slide or finish the transition to the next slide
+   */
   C.prototype.finishDragAction = function() {
     $('.h5p-pictusel-dragging', this.$container).removeClass('h5p-pictusel-dragging').each(function() {
       this.style.removeProperty('transform');
