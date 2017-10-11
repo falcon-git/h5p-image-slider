@@ -12,7 +12,6 @@
           "label": "Picture Slide",
           "name": "pictuSlide",
           "type": "library",
-          "description": "The picture slide.",
           "options": [
             "H5P.PictuSlide 1.0"
           ]
@@ -21,10 +20,25 @@
     }
   },
   {
-    "label": "Fixed aspect ratio",
-    "name": "isFixedAspectRatio",
-    "type": "boolean",
-    "description": "Whether or not a fixed aspect ratio should be used. If fixed is used images with a different aspect ratio will get black borders. If it isn't used all images have full width and the height will vary"
+    "label": "Aspect ratio",
+    "name": "aspectRatioMode",
+    "type": "select",
+    "description": "Automatic means fixed aspect ratio automatically determined based on the images",
+    "default": "auto",
+    "options": [
+      {
+        "value": "auto",
+        "label": "Automatic"
+      },
+      {
+        "value": "custom",
+        "label": "Custom"
+      },
+      {
+        "value": "notFixed",
+        "label": "Not fixed"
+      }
+    ]
   },
   {
     "label": "Aspect Ratio Settings",
@@ -35,48 +49,25 @@
     "showWhen": {
       "rules": [
         {
-          "field": "isFixedAspectRatio",
-          "equals": true
+          "field": "aspectRatioMode",
+          "equals": "custom"
         }
       ]
     },
     "fields": [
       {
-        "label": "Automatic",
-        "name": "isAutoAspectRatio",
-        "type": "boolean",
-        "description": "Use the average aspect ratio of the uploaded images"
+        "label": "Aspect ratio width",
+        "name": "aspectWidth",
+        "type": "number",
+        "default": 4,
+        "description": "If you use 4 here, and 3 for the height the aspect ratio will be 4:3"
       },
       {
-        "label": "Manually define aspect ratio",
-        "name": "manualSspectRatio",
-        "type": "group",
-        "widget": "showWhen",
-        "expanded": true,
-        "showWhen": {
-          "rules": [
-            {
-              "field": "isAutoAspectRatio",
-              "equals": false
-            }
-          ]
-        },
-        "fields": [
-          {
-            "label": "Aspect ratio width",
-            "name": "aspectWidth",
-            "type": "number",
-            "default": 4,
-            "description": "If you use 4 here, and 3 for the height the aspect ratio will be 4:3"
-          },
-          {
-            "label": "Aspect ratio height",
-            "name": "aspectHeight",
-            "type": "number",
-            "default": 3,
-            "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
-          }
-        ]
+        "label": "Aspect ratio height",
+        "name": "aspectHeight",
+        "type": "number",
+        "default": 3,
+        "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
       }
     ]
   }

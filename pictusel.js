@@ -18,7 +18,7 @@ H5P.Pictusel = (function ($) {
         "left": 'Left',
         "right": 'Right'
       },
-      isFixedAspectRatio: false,
+      aspectRatioMode: 'auto',
       aspectRatio: {
         aspectWidth: 4,
         aspectHeight: 3
@@ -30,10 +30,8 @@ H5P.Pictusel = (function ($) {
     this.currentSlideId = 0;
     this.pictuSlides = [];
     this.pictuSlideHolders = [];
-    this.aspectRatio = undefined;
-    if (this.options.isFixedAspectRatio && this.options.aspectRatio.aspectWidth && this.options.aspectRatio.aspectHeight) {
-      this.aspectRatio = this.options.aspectRatio.aspectWidth / this.options.aspectRatio.aspectHeight;
-    }
+    this.determineAspectRatio();
+    
     for (var i = 0; i < this.options.pictuSlides.length; i++) {
       this.pictuSlides[i] = H5P.newRunnable(this.options.pictuSlides[i], this.id, undefined, undefined, {
         aspectRatio: this.aspectRatio
@@ -68,6 +66,36 @@ H5P.Pictusel = (function ($) {
       self.updateProgressBar();
     });
   };
+
+  /**
+   * Set the aspect ratio for this pictusel
+   */
+  C.prototype.determineAspectRatio = function() {
+    // Set aspectRatio to default
+    this.aspectRatio = 4/3;
+
+    // Try to identify aspectRatio according to settings
+    switch (this.options.aspectRatioMode) {
+      case 'auto':
+        var imageRatios = [];
+        for (var i = 0; i < this.options.pictuSlides.length; i++) {
+          var imageFile = this.options.pictuSlides[i].params.picture.params.file;
+          imageRatios[i] = imageFile.width / imageFile.height;
+        }
+        imageRatios.sort(function(a, b){return a - b});
+        // Get the median image ratio
+        this.aspectRatio = imageRatios[Math.round(imageRatios.length / 2) - 1];
+      break;
+      case 'custom':
+      if (this.options.aspectRatio.aspectWidth && this.options.aspectRatio.aspectHeight) {
+        this.aspectRatio = this.options.aspectRatio.aspectWidth / this.options.aspectRatio.aspectHeight;
+      }
+      break;
+      case 'notFixed':
+        this.aspectRatio = undefined;
+      break;
+    }
+  }
 
   /**
    * Attach function called by H5P framework to insert H5P content into
