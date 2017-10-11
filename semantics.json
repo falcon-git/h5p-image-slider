@@ -1,15 +1,15 @@
 [
   {
-    "label": "Pictures",
+    "label": "Images",
     "name": "pictuSlides",
     "type": "list",
     "field": {
-      "label": "Picture Slide",
+      "label": "Image Slide",
       "name": "pictuSlide",
       "type": "group",
       "fields": [
         {
-          "label": "Picture Slide",
+          "label": "Image Slide",
           "name": "pictuSlide",
           "type": "library",
           "options": [
