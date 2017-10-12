@@ -2,7 +2,7 @@
   "title": "Image Slider",
   "description": "Image Slider",
   "majorVersion": 1,
-  "minorVersion": 1,
+  "minorVersion": 0,
   "patchVersion": 0,
   "runnable": 1,
   "author": "Falcon",
@@ -11,15 +11,15 @@
   "embedTypes": [
     "iframe"
   ],
-  "machineName": "H5P.Pictusel",
+  "machineName": "H5P.ImageSlider",
   "preloadedJs": [
     {
-      "path": "pictusel.js"
+      "path": "image-slider.js"
     }
   ],
   "preloadedCss": [
     {
-      "path": "pictusel.css"
+      "path": "image-slider.css"
     }
   ],
   "editorDependencies": [

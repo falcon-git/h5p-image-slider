@@ -1,19 +1,19 @@
 [
   {
     "label": "Images",
-    "name": "pictuSlides",
+    "name": "imageSlides",
     "type": "list",
     "field": {
       "label": "Image Slide",
-      "name": "pictuSlide",
+      "name": "imageSlide",
       "type": "group",
       "fields": [
         {
           "label": "Image Slide",
-          "name": "pictuSlide",
+          "name": "imageSlide",
           "type": "library",
           "options": [
-            "H5P.PictuSlide 1.0"
+            "H5P.ImageSlide 1.0"
           ]
         }
       ]

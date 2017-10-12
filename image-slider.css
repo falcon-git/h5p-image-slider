@@ -1,8 +1,8 @@
-.h5p-pictusel {
+.h5p-image-slider {
   overflow: hidden;
 }
 
-.h5p-pictusel-slides:after {
+.h5p-image-slider-slides:after {
   content: ".";
   display: block;
   height: 0;
@@ -10,12 +10,12 @@
   visibility: hidden;
 }
 
-.h5p-pictusel-slides-holder {
+.h5p-image-slider-slides-holder {
   position: relative;
   margin-bottom: 2.5em;
 }
 
-.h5p-pictusel-button {
+.h5p-image-slider-button {
   position: absolute;
   top: 0;
   width: 15%;
@@ -26,16 +26,24 @@
   z-index: 3;
 }
 
-.h5p-pictusel-button-text {
+.h5p-image-slider-button-text {
   position: absolute;
-  left: calc(50% - 1.25em);
-  top: calc(50% - 1.25em);
+  top: calc(50% - 1.5em);
   background-color: #ffffff;
-  height: 2.5em;
-  width: 2.5em;
+  height: 3em;
+  width: 3em;
 }
 
-.h5p-pictusel-button-background {
+.h5p-image-slider-left-button .h5p-image-slider-button-text {
+  left: 20%;
+}
+
+.h5p-image-slider-right-button .h5p-image-slider-button-text {
+  right: 20%;
+}
+
+
+.h5p-image-slider-button-background {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -44,37 +52,37 @@
   transition: opacity 0.3s;
 }
 
-.h5p-pictusel-button:hover .h5p-pictusel-button-background {  
+.h5p-image-slider-button:hover .h5p-image-slider-button-background {  
   opacity: 1;
 }
 
-.h5p-pictusel-left-button {
+.h5p-image-slider-left-button {
   left: 0;
   transition: height 0.2s;
 }
 
-.h5p-pictusel-left-button .h5p-pictusel-button-background {
+.h5p-image-slider-left-button .h5p-image-slider-button-background {
   background: linear-gradient(90deg, rgba(1,1,1,0.3), rgba(1,1,1,0));
 }
 
-.h5p-pictusel-right-button {
+.h5p-image-slider-right-button {
   left: 85%;
   transition: height 0.2s;
 }
 
-.h5p-pictusel-right-button .h5p-pictusel-button-text {
+.h5p-image-slider-right-button .h5p-image-slider-button-text {
   background: no-repeat url('images/arrow-right.svg');
 }
 
-.h5p-pictusel-left-button .h5p-pictusel-button-text {
+.h5p-image-slider-left-button .h5p-image-slider-button-text {
   background: no-repeat url('images/arrow-left.svg');
 }
 
-.h5p-pictusel-no-transition {
+.h5p-image-slider-no-transition {
   transition: none !important;
 }
 
-.h5p-pictusel-progress {
+.h5p-image-slider-progress {
   margin: 0 auto;
   padding: 0.75em 0;
   text-align: center;
@@ -85,7 +93,7 @@
   line-height: 0.5em;
 }
 
-.h5p-pictusel-progress-element {
+.h5p-image-slider-progress-element {
   list-style: none;
   display: inline-block;
   width: 1em;
@@ -96,51 +104,51 @@
   cursor: pointer;
 }
 
-.h5p-pictusel-current-progress-element {
+.h5p-image-slider-current-progress-element {
   background: no-repeat url('images/circle-active.svg');
 }
 
-.h5p-pictu-slide-holder {
+.h5p-image-slide-holder {
   float: left;
   margin-left: -100%;
 }
 
-.h5p-pictusel-dragging {
+.h5p-image-slider-dragging {
   transition: none !important;
   left: 0 !important;
 }
 
-.h5p-pictu-slide-holder:first-child {
+.h5p-image-slide-holder:first-child {
   display: block;
   margin-left: 0;
 }
-.h5p-pictu-slide-holder.h5p-pictusel-current {
+.h5p-image-slide-holder.h5p-image-slider-current {
   transition: left 0.32s;
   left: 0;
   display: block;
   z-index: 2;
 }
-.h5p-pictusel-future {
+.h5p-image-slider-future {
   transition: left 0.35s;
   left: 100.1%;
 }
-.h5p-pictusel-past {
+.h5p-image-slider-past {
   transition: left 0.35s;
   left: -100.1%;
 }
-.h5p-pictusel-removing {
+.h5p-image-slider-removing {
   display: block;
 }
-.h5p-pictusel-past.h5p-pictusel-no-transition {
+.h5p-image-slider-past.h5p-image-slider-no-transition {
   left: -100.0%;
 }
-.h5p-pictusel-future.h5p-pictusel-no-transition {
+.h5p-image-slider-future.h5p-image-slider-no-transition {
   left: 100.0%;
 }
 .h5p-content-controls {
   z-index: 4;
 }
-.h5p-pictusel .h5p-enable-fullscreen {
+.h5p-image-slider .h5p-enable-fullscreen {
   width: 2.25em;
   height: 1.83em;
   background: no-repeat url('images/full-screen-enter.svg');
@@ -150,10 +158,10 @@
   font-size: 1em;
 }
 
-.h5p-pictusel .h5p-enable-fullscreen:before {
+.h5p-image-slider .h5p-enable-fullscreen:before {
   content: '';
 }
 
-.h5p-pictusel .h5p-enable-fullscreen:hover {
+.h5p-image-slider .h5p-enable-fullscreen:hover {
   background-color: rgba(0,0,0,0.35);
 }
