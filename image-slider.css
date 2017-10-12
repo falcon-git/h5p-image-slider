@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'H5PImageSlider';
+  src: url('fonts/slider.eot?b07fg9');
+  src: url('fonts/slider.eot?b07fg9#iefix') format('embedded-opentype'),
+    url('fonts/slider.ttf?b07fg9') format('truetype'),
+    url('fonts/slider.woff?b07fg9') format('woff'),
+    url('fonts/slider.svg?b07fg9#slider') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .h5p-image-slider {
   overflow: hidden;
 }
@@ -28,18 +39,39 @@
 
 .h5p-image-slider-button-text {
   position: absolute;
-  top: calc(50% - 1.5em);
-  background-color: #ffffff;
-  height: 3em;
-  width: 3em;
+  top: calc(50% - 0.5em);
+  color: #ffffff;
+  font-size: 4em;
+
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'H5PImageSlider' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  text-shadow:  0px 0px 11px rgba(150, 150, 150, 1);
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .h5p-image-slider-left-button .h5p-image-slider-button-text {
-  left: 20%;
+  left: calc(20% - 0.2em);
+  
+}
+.h5p-image-slider-left-button .h5p-image-slider-button-text:before {
+  content: "\e901";
 }
 
 .h5p-image-slider-right-button .h5p-image-slider-button-text {
-  right: 20%;
+  right: calc(20% - 0.2em);
+}
+.h5p-image-slider-right-button .h5p-image-slider-button-text:before {
+  content: "\e900";
 }
 
 
@@ -68,14 +100,6 @@
 .h5p-image-slider-right-button {
   left: 85%;
   transition: height 0.2s;
-}
-
-.h5p-image-slider-right-button .h5p-image-slider-button-text {
-  background: no-repeat url('images/arrow-right.svg');
-}
-
-.h5p-image-slider-left-button .h5p-image-slider-button-text {
-  background: no-repeat url('images/arrow-left.svg');
 }
 
 .h5p-image-slider-no-transition {
