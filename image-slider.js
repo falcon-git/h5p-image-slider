@@ -26,14 +26,14 @@ H5P.ImageSlider = (function ($) {
         aspectHeight: 3
       }
     }, options);
-    
+
     // Keep provided id.
     this.id = id;
     this.currentSlideId = 0;
     this.imageSlides = [];
     this.imageSlideHolders = [];
     this.determineAspectRatio();
-    
+
     for (var i = 0; i < this.options.imageSlides.length; i++) {
       this.imageSlides[i] = H5P.newRunnable(this.options.imageSlides[i], this.id, undefined, undefined, {
         aspectRatio: this.aspectRatio
@@ -43,7 +43,7 @@ H5P.ImageSlider = (function ($) {
       });
       this.imageSlideHolders[i] = false;
     }
-    
+
     this.on('enterFullScreen', function() {
       self.enterFullScreen();
     });
@@ -68,7 +68,7 @@ H5P.ImageSlider = (function ($) {
       self.updateNavButtons();
       self.updateProgressBar();
     });
-  };
+  }
 
   C.prototype = Object.create(H5P.EventDispatcher.prototype);
   C.prototype.constructor = C;
@@ -88,20 +88,24 @@ H5P.ImageSlider = (function ($) {
           var imageFile = this.options.imageSlides[i].params.image.params.file;
           imageRatios[i] = imageFile.width / imageFile.height;
         }
-        imageRatios.sort(function(a, b){return a - b});
+        imageRatios.sort(function (a, b) {
+          return a - b;
+        });
         // Get the median image ratio
         this.aspectRatio = imageRatios[Math.round(imageRatios.length / 2) - 1];
-      break;
+        break;
+
       case 'custom':
-      if (this.options.aspectRatio.aspectWidth && this.options.aspectRatio.aspectHeight) {
-        this.aspectRatio = this.options.aspectRatio.aspectWidth / this.options.aspectRatio.aspectHeight;
-      }
-      break;
+        if (this.options.aspectRatio.aspectWidth && this.options.aspectRatio.aspectHeight) {
+          this.aspectRatio = this.options.aspectRatio.aspectWidth / this.options.aspectRatio.aspectHeight;
+        }
+        break;
+
       case 'notFixed':
         this.aspectRatio = undefined;
-      break;
+        break;
     }
-  }
+  };
 
   /**
    * Attach function called by H5P framework to insert H5P content into
@@ -114,35 +118,35 @@ H5P.ImageSlider = (function ($) {
     // Set class on container to identify it as a greeting card
     // container.  Allows for styling later.
     $container.addClass("h5p-image-slider");
-    
+
     this.$slidesHolder = $('<div>', {
       class: 'h5p-image-slider-slides-holder'
     }).appendTo($container);
-    
+
     this.$slides = $('<div>', {
       class: 'h5p-image-slider-slides'
     }).appendTo(this.$slidesHolder);
-    
+
     this.loadImageSlides();
 
     this.$currentSlide = this.imageSlideHolders[0].addClass('h5p-image-slider-current');
-    
+
     this.attachControls();
   };
-  
+
   /**
    * Update layout when entering fullscreen.
-   * 
+   *
    * Many layout changes are handled on resize.
    */
   C.prototype.enterFullScreen = function() {
     this.updateNavButtons();
     this.updateProgressBar();
   };
-  
+
   /**
    * Update layout when entering fullscreen.
-   * 
+   *
    * Many layout changes are handled on resize.
    */
   C.prototype.exitFullScreen = function() {
@@ -152,7 +156,7 @@ H5P.ImageSlider = (function ($) {
     this.updateNavButtons();
     this.updateProgressBar();
   };
-  
+
   /**
    * Adds the HTML for the next three slides to the DOM
    */
@@ -171,7 +175,7 @@ H5P.ImageSlider = (function ($) {
       }
     }
   };
-  
+
   /**
    * Attaches controls to the DOM
    */
@@ -196,7 +200,7 @@ H5P.ImageSlider = (function ($) {
     this.initDragging();
     this.initKeyEvents();
   };
-  
+
   /**
    * Attaches the progress bar to the DOM
    */
@@ -209,17 +213,17 @@ H5P.ImageSlider = (function ($) {
     }
     this.$slidesHolder.append(this.$progressBar);
   };
-  
+
   /**
    * Creates a progress bar button
-   * 
+   *
    * @param {Integer} index  - slide index the progress bare element corresponds to
    * @return {jQuery} - progress bar button
    */
   C.prototype.createProgressBarElement = function(index) {
     var self = this;
     var $progressBarElement = $('<li>', {
-      class: 'h5p-image-slider-progress-element' 
+      class: 'h5p-image-slider-progress-element'
     }).click(function() {
       self.gotoSlide(index);
     });
@@ -228,10 +232,10 @@ H5P.ImageSlider = (function ($) {
     }
     return $progressBarElement;
   };
-  
+
   /**
    * Creates a next or previous button
-   * 
+   *
    * @param {string} text - label for the button
    * @param {string} dir - next or prev
    * @return {jQuery} control button
@@ -240,25 +244,25 @@ H5P.ImageSlider = (function ($) {
     var $controlButton = $('<div>', {
       class: 'h5p-image-slider-button ' + 'h5p-image-slider-' + dir + '-button',
     });
-    
+
     var $controlBg = $('<div>', {
       class: 'h5p-image-slider-button-background'
     });
      $controlButton.append($controlBg);
-    
+
     // TODO: Add real aria label
     var $controlText = $('<div>', {
       class: 'h5p-image-slider-button-text',
       'aria-label': 'text'
     });
     $controlButton.append($controlText);
-    
+
     return $controlButton;
   };
-  
+
   /**
    * Go to a specific slide
-   * 
+   *
    * @param {Integer} slideId the index of the slide we want to go to
    * @return {Boolean} false if failed(typically the slide didn't exist), true if not
    */
@@ -286,17 +290,17 @@ H5P.ImageSlider = (function ($) {
         .removeClass('h5p-image-slider-future')
         .addClass('h5p-image-slider-current');
     }, 1);
-   
+
     this.$currentSlide = $nextSlide;
 
     this.updateNavButtons();
     this.updateProgressBar();
     return true;
   };
-  
+
   /**
    * Position the next slide correctly so that it is ready to be aimated in
-   * 
+   *
    * @param {jQuery} $nextSlide the slide to be prepared
    * @param {String} direction prev or next
    */
@@ -306,7 +310,7 @@ H5P.ImageSlider = (function ($) {
       .addClass('h5p-image-slider-no-transition')
       .addClass('h5p-image-slider-' + direction);
   };
-  
+
   /**
    * Updates all navigation buttons, typically toggling and positioning
    */
@@ -326,15 +330,15 @@ H5P.ImageSlider = (function ($) {
     var heightInPercent = 100;
     var fullScreenOn = this.$container.hasClass('h5p-fullscreen') || this.$container.hasClass('h5p-semi-fullscreen');
     if (!fullScreenOn) {
-      var heightInPercent = this.$currentSlide.height() / this.$slides.height() * 100;
+      heightInPercent = this.$currentSlide.height() / this.$slides.height() * 100;
     }
     this.$leftButton.css('height', heightInPercent + '%');
     this.$rightButton.css('height', heightInPercent + '%');
   };
-  
+
   /**
    * Update the progress bar
-   * 
+   *
    * Highlights the element in the progress bar corresponding to the current slide
    * and reposition the progress bar
    */
@@ -344,7 +348,7 @@ H5P.ImageSlider = (function ($) {
     var heightInPercent = this.$currentSlide.height() / this.$slides.height() * 100;
     $('.h5p-image-slider-progress', this.$container).css('top', heightInPercent + '%');
   };
-  
+
   /**
    * Make a slide draggable
    */
@@ -366,7 +370,7 @@ H5P.ImageSlider = (function ($) {
       event.preventDefault();
       self.dragActionUpdate(event.originalEvent.touches[0].pageX);
     });
-    
+
     this.$slidesHolder.on('touchend', function(event) {
       self.finishDragAction();
       if (self.dragStartTime !== false && self.isButton(event.target)) {
@@ -383,8 +387,8 @@ H5P.ImageSlider = (function ($) {
       }
       self.dragStartTime = false;
     });
-    
-    this.$slidesHolder.on('touchcancel', function(event) {
+
+    this.$slidesHolder.on('touchcancel', function() {
       self.finishDragAction();
       self.dragStartTime = false;
     });
@@ -419,7 +423,7 @@ H5P.ImageSlider = (function ($) {
 
   /**
    * Is the domElement a button?
-   * 
+   *
    * @param {DOMElement} domElement the element to be checked
    * @return {Boolean} whether or not the element is a button
    */
@@ -428,11 +432,11 @@ H5P.ImageSlider = (function ($) {
     return $target.hasClass('h5p-image-slider-button-background')
       || $target.hasClass('h5p-image-slider-button-text')
       || $target.hasClass('h5p-image-slider-button');
-  }
+  };
 
   /**
    * Is the element the right/next button?
-   * 
+   *
    * @param {DOMElement} domElement the DOM element to be checked
    * @return {Boolean} Whether or not the element is the right button
    */
@@ -440,8 +444,8 @@ H5P.ImageSlider = (function ($) {
     var $target = $(domElement);
     return $target.hasClass('h5p-image-slider-right-button')
       || $target.parent().hasClass('h5p-image-slider-right-button');
-  }
-  
+  };
+
   /**
    * Update the current and next slide in response to a drag action
    */
@@ -449,7 +453,7 @@ H5P.ImageSlider = (function ($) {
     this.dragXMovement = x - this.dragStartX;
     this.$currentSlide.css('transform', 'translateX(' + this.dragXMovement + 'px)');
     if (this.currentSlideId > 0) {
-      var $prevSlide = this.imageSlideHolders[this.currentSlideId - 1].addClass('h5p-image-slider-dragging');;
+      var $prevSlide = this.imageSlideHolders[this.currentSlideId - 1].addClass('h5p-image-slider-dragging');
       if (this.dragXMovement < 0) {
         $prevSlide.css('transform', 'translateX(-100.001%)');
       }
@@ -465,12 +469,12 @@ H5P.ImageSlider = (function ($) {
       else {
         $nextSlide.css('transform', 'translateX(' +(this.dragXMovement + $nextSlide.width()) + 'px)');
       }
-    } 
+    }
   };
-  
+
   /**
    * Actions to be done when a drag action is finished
-   * 
+   *
    * Will either go back to the current slide or finish the transition to the next slide
    */
   C.prototype.finishDragAction = function() {
