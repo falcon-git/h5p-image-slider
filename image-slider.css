@@ -189,3 +189,7 @@
 .h5p-image-slider .h5p-enable-fullscreen:hover {
   background-color: rgba(0,0,0,0.35);
 }
+
+.h5p-image-slider-using-mouse .h5p-image-slider-progress-element, .h5p-image-slider-using-mouse .h5p-image-slider-button-text {
+  outline: none;
+}

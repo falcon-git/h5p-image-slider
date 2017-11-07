@@ -16,9 +16,10 @@ H5P.ImageSlider = (function ($) {
           'imageSlide': null
         }
       ],
-      "i18n": {
-        "left": 'Left',
-        "right": 'Right'
+      "a11y": {
+        "nextSlide": 'Next Image',
+        "prevSlide": 'Previous Image',
+        "gotoSlide": 'Go to image %slide'
       },
       aspectRatioMode: 'auto',
       aspectRatio: {
@@ -117,7 +118,17 @@ H5P.ImageSlider = (function ($) {
     this.$container = $container;
     // Set class on container to identify it as a greeting card
     // container.  Allows for styling later.
-    $container.addClass("h5p-image-slider");
+    $container.addClass("h5p-image-slider").addClass('h5p-image-slider-using-mouse');
+
+    $container.bind('keydown', function(e) {
+      var keyboardNavKeys = [32, 13, 9];
+      if (keyboardNavKeys.indexOf(e.keyCode) !== -1) {
+        $container.removeClass('h5p-image-slider-using-mouse');
+      }
+    });
+    $container.bind('mousedown', function() {
+      $container.addClass('h5p-image-slider-using-mouse');
+    });
 
     this.$slidesHolder = $('<div>', {
       class: 'h5p-image-slider-slides-holder'
@@ -181,10 +192,15 @@ H5P.ImageSlider = (function ($) {
    */
   C.prototype.attachControls = function() {
     var self = this;
-    this.$leftButton = this.createControlButton(this.options.i18n.left, 'left');
-    this.$rightButton = this.createControlButton(this.options.i18n.right, 'right');
+    this.$leftButton = this.createControlButton(this.options.a11y.prevSlide, 'left');
+    this.$rightButton = this.createControlButton(this.options.a11y.nextSlide, 'right');
     this.$leftButton.click(function() {
       if (!self.dragging) {
+        self.gotoSlide(self.currentSlideId - 1);
+      }
+    })
+    .keypress(function (e) {
+      if (!self.dragging && (e.keyCode === 13 || e.keyCode === 32)) {
         self.gotoSlide(self.currentSlideId - 1);
       }
     });
@@ -192,7 +208,12 @@ H5P.ImageSlider = (function ($) {
       if (!self.dragging) {
         self.gotoSlide(self.currentSlideId + 1);
       }
-    });
+    })
+    .keypress(function (e) {
+      if (!self.dragging && (e.keyCode === 13 || e.keyCode === 32)) {
+        self.gotoSlide(self.currentSlideId + 1);
+      }
+    });;
     this.$slidesHolder.append(this.$leftButton);
     this.$slidesHolder.append(this.$rightButton);
     this.updateNavButtons();
@@ -223,9 +244,16 @@ H5P.ImageSlider = (function ($) {
   C.prototype.createProgressBarElement = function(index) {
     var self = this;
     var $progressBarElement = $('<li>', {
-      class: 'h5p-image-slider-progress-element'
+      class: 'h5p-image-slider-progress-element',
+      role: 'button',
+      "aria-label": self.options.a11y.gotoSlide.replace('%slide', index + 1),
+      tabindex: 0,
     }).click(function() {
       self.gotoSlide(index);
+    }).keypress(function (e) {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        self.gotoSlide(index);
+      }
     });
     if (index === 0) {
       $progressBarElement.addClass('h5p-image-slider-current-progress-element');
@@ -250,10 +278,11 @@ H5P.ImageSlider = (function ($) {
     });
      $controlButton.append($controlBg);
 
-    // TODO: Add real aria label
     var $controlText = $('<div>', {
       class: 'h5p-image-slider-button-text',
-      'aria-label': 'text'
+      'aria-label': text,
+      'role': 'button',
+      'tabindex': 0
     });
     $controlButton.append($controlText);
 
