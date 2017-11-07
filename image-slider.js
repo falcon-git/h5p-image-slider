@@ -122,7 +122,7 @@ H5P.ImageSlider = (function ($) {
 
     $container.bind('keydown', function(e) {
       var keyboardNavKeys = [32, 13, 9];
-      if (keyboardNavKeys.indexOf(e.keyCode) !== -1) {
+      if (keyboardNavKeys.indexOf(e.which) !== -1) {
         $container.removeClass('h5p-image-slider-using-mouse');
       }
     });
@@ -197,26 +197,18 @@ H5P.ImageSlider = (function ($) {
     var self = this;
     this.$leftButton = this.createControlButton(this.options.a11y.prevSlide, 'left');
     this.$rightButton = this.createControlButton(this.options.a11y.nextSlide, 'right');
-    this.$leftButton.click(function() {
+    C.handleButtonClick(this.$leftButton, function () {
       if (!self.dragging) {
         self.gotoSlide(self.currentSlideId - 1);
       }
-    })
-    .keypress(function (e) {
-      if (!self.dragging && (e.keyCode === 13 || e.keyCode === 32)) {
-        self.gotoSlide(self.currentSlideId - 1);
-      }
     });
-    this.$rightButton.click(function() {
+
+    C.handleButtonClick(this.$rightButton, function() {
       if (!self.dragging) {
         self.gotoSlide(self.currentSlideId + 1);
       }
-    })
-    .keypress(function (e) {
-      if (!self.dragging && (e.keyCode === 13 || e.keyCode === 32)) {
-        self.gotoSlide(self.currentSlideId + 1);
-      }
     });
+
     this.$slidesHolder.append(this.$leftButton);
     this.$slidesHolder.append(this.$rightButton);
     this.updateNavButtons();
@@ -251,13 +243,12 @@ H5P.ImageSlider = (function ($) {
       role: 'button',
       "aria-label": self.options.a11y.gotoSlide.replace('%slide', index + 1),
       tabindex: 0,
-    }).click(function() {
-      self.gotoSlide(index);
-    }).keypress(function (e) {
-      if (e.keyCode === 13 || e.keyCode === 32) {
-        self.gotoSlide(index);
-      }
     });
+
+    C.handleButtonClick($progressBarElement, function() {
+      self.gotoSlide(index);
+    });
+
     if (index === 0) {
       $progressBarElement.addClass('h5p-image-slider-current-progress-element');
     }
@@ -441,14 +432,13 @@ H5P.ImageSlider = (function ($) {
     var self = this;
 
     this.keydown = function (event) {
-
       // Left
-      if (event.keyCode === 37) {
+      if (event.which === 37) {
         self.gotoSlide(self.currentSlideId - 1);
       }
 
       // Right
-      else if (event.keyCode === 39) {
+      else if (event.which === 39) {
         self.gotoSlide(self.currentSlideId + 1);
       }
     };
@@ -535,6 +525,26 @@ H5P.ImageSlider = (function ($) {
     }
     this.dragging = false;
     this.dragXMovement = 0;
+  };
+
+  /**
+   * Make a non-button element behave as a button. I.e handle enter and space
+   * keydowns as click
+   *
+   * @param  {H5P.jQuery} $element The "button" element
+   * @param  {Function} callback
+   */
+  C.handleButtonClick = function ($element, callback) {
+    $element.click(function (event) {
+      callback.call(this, event);
+    });
+    $element.keydown(function (event) {
+      // 32 - space, 13 - enter
+      if ([32, 13].indexOf(event.which) !== -1) {
+        event.preventDefault();
+        callback.call(this, event);
+      }
+    });
   };
 
   return C;
