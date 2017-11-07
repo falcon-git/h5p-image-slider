@@ -13,13 +13,13 @@ H5P.ImageSlider = (function ($) {
     this.options = $.extend(true, {}, {
       imageSlides: [
         {
-          'imageSlide': null
+          imageSlide: null
         }
       ],
-      "a11y": {
-        "nextSlide": 'Next Image',
-        "prevSlide": 'Previous Image',
-        "gotoSlide": 'Go to image %slide'
+      a11y: {
+        nextSlide: 'Next Image',
+        prevSlide: 'Previous Image',
+        gotoSlide: 'Go to image %slide'
       },
       aspectRatioMode: 'auto',
       aspectRatio: {
@@ -213,7 +213,7 @@ H5P.ImageSlider = (function ($) {
       if (!self.dragging && (e.keyCode === 13 || e.keyCode === 32)) {
         self.gotoSlide(self.currentSlideId + 1);
       }
-    });;
+    });
     this.$slidesHolder.append(this.$leftButton);
     this.$slidesHolder.append(this.$rightButton);
     this.updateNavButtons();
