@@ -178,6 +178,9 @@ H5P.ImageSlider = (function ($) {
         this.imageSlideHolders[i] = $('<div>', {
           'class': 'h5p-image-slide-holder'
         });
+        if (i > 0) {
+          this.imageSlideHolders[i].attr('aria-hidden', true);
+        }
         if (i > this.currentSlideId) {
           this.imageSlideHolders[i].addClass('h5p-image-slider-future');
         }
@@ -314,10 +317,12 @@ H5P.ImageSlider = (function ($) {
       $prevSlide.removeClass('h5p-image-slider-current')
         .addClass('h5p-image-slider-removing')
         .removeClass('h5p-image-slider-' + nextSlideDirection)
-        .addClass('h5p-image-slider-' + prevSlideDirection);
+        .addClass('h5p-image-slider-' + prevSlideDirection)
+        .attr('aria-hidden', true);
       $nextSlide.removeClass('h5p-image-slider-past')
         .removeClass('h5p-image-slider-future')
-        .addClass('h5p-image-slider-current');
+        .addClass('h5p-image-slider-current')
+        .removeAttr('aria-hidden');
     }, 1);
 
     this.$currentSlide = $nextSlide;
