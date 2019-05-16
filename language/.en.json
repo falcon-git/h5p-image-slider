@@ -68,7 +68,7 @@
         },
         {
           "label": "Hide navigation",
-          "description": "If set, navigation will work, but items used for navigation are hidden.",
+          "description": "If set, navigation will work, but items used for navigation are hidden."
         }
       ]
     },
