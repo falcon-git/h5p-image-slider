@@ -61,7 +61,8 @@ H5P.ImageSlider = (function ($) {
       var fullScreenOn = self.$container.hasClass('h5p-fullscreen') || self.$container.hasClass('h5p-semi-fullscreen');
       if (fullScreenOn) {
         self.$slides.css('height', '');
-        var newAspectRatio = window.innerWidth / (window.innerHeight - self.$progressBar.outerHeight());
+        const heightProgressBar = self.$progressBar ? self.$progressBar.outerHeight() : 0;
+        var newAspectRatio = window.innerWidth / (window.innerHeight - heightProgressBar);
         for (var i = 0; i < self.imageSlides.length; i++) {
           self.imageSlides[i].setAspectRatio(newAspectRatio);
         }
