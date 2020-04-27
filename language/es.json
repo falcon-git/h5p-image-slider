@@ -50,12 +50,12 @@
         {
           "label": "Etiqueta para botones Imagen anterior",
           "default": "Imagen anterior",
-          "description": Esto es usado solamente para Lectores de voz. No será mostrado."
+          "description": "Esto es usado solamente para Lectores de voz. No será mostrado."
         },
         {
           "label": "Etiqueta para botones de imagen",
           "default": "Ir a la imagen %slide",
-          "description": Esto es usado solamente para Lectores de voz. No será mostrado. %slide es una variable y será remplazado con el número de la imagen."
+          "description": "Esto es usado solamente para Lectores de voz. No será mostrado. %slide es una variable y será remplazado con el número de la imagen."
         }
       ]
     }
