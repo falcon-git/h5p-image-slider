@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Image Slide"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,19 @@
         {
           "label": "Aspect ratio height",
           "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
+        }
+      ]
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

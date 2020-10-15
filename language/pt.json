@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Slides"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,19 @@
         {
           "label": "Altura",
           "description": "Se usar 3 aqui e 4 para a largura, a proporção será de 4:3"
+        }
+      ]
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

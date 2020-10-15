@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Liukuvat kuvat"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,19 @@
         {
           "label": "Kuvasuhteen korkeus",
           "description": "Jos käytät tässä arvoa 3 ja korkeudelle arvoa 4 niin kuvasuhteeksi muodostuu 4:3"
+        }
+      ]
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

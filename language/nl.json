@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Afbeeldingsdia"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,19 @@
         {
           "label": "De hoogte van de beeldverhouding",
           "description": "Als je hier 3 en 4 voor de breedte gebruikt, dan is de beeldverhouding 4:3"
+        }
+      ]
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },
