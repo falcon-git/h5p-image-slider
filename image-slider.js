@@ -251,6 +251,8 @@ H5P.ImageSlider = (function ($) {
         }
         this.imageSlides[i].attach(this.imageSlideHolders[i]);
         this.$slides.append(this.imageSlideHolders[i]);
+
+        this.imageSlideHolders[i].get(0).appendChild(this.audios[i].player);
       }
     }
   };
@@ -263,6 +265,10 @@ H5P.ImageSlider = (function ($) {
 
     this.imageSlideHolders.forEach( function (holder, index) {
       if (that.audios[index]) {
+        if (!holder) {
+          return; // Not yet loaded
+        }
+
         holder.get(0).appendChild(that.audios[index].player);
       }
     });
