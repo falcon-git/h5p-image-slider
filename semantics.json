@@ -80,6 +80,13 @@
     ]
   },
   {
+    "label": "Autoplay",
+    "name": "autoplay",
+    "type": "boolean",
+    "default": false,
+    "description": "Check if the audio should try to play automatically when opening the content"
+  },
+  {
     "name": "l10n",
     "type": "group",
     "common": true,

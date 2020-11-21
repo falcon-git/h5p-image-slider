@@ -44,6 +44,10 @@
       ]
     },
     {
+      "label": "Autoplay",
+      "description": "Check if the audio should try to play automatically when opening the content"
+    },
+    {
       "label": "Localize",
       "fields": [
         {

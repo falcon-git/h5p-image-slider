@@ -29,7 +29,8 @@ H5P.ImageSlider = (function ($) {
       aspectRatio: {
         aspectWidth: 4,
         aspectHeight: 3
-      }
+      },
+      autoplay: false
     }, options);
 
     // Keep provided id.
@@ -205,7 +206,9 @@ H5P.ImageSlider = (function ($) {
       this.$slidesHolder.get(0).appendChild(this.buttonAudio);
     }
 
-    this.playAudio(0);
+    if (this.audios[0] && this.options.autoplay) {
+      this.playAudio(0);
+    }
 
     this.attachControls();
   };
@@ -252,7 +255,9 @@ H5P.ImageSlider = (function ($) {
         this.imageSlides[i].attach(this.imageSlideHolders[i]);
         this.$slides.append(this.imageSlideHolders[i]);
 
-        this.imageSlideHolders[i].get(0).appendChild(this.audios[i].player);
+        if (this.audios[i]) {
+          this.imageSlideHolders[i].get(0).appendChild(this.audios[i].player);
+        }
       }
     }
   };
