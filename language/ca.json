@@ -13,7 +13,7 @@
     },
     {
       "label": "Relació d’aspecte",
-      "description": "\"Automàtica\" fa referència a una relació d’aspecte fixa que es determina automàticament en funció de les imatges.",
+      "description": "\"Automàtica\" fa referència a una relació d’aspecte fixa que es determina automàticament en funció de les imatges",
       "options": [
         {
           "label": "Automàtic"
