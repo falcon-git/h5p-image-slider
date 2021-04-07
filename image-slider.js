@@ -87,12 +87,7 @@ H5P.ImageSlider = (function ($) {
         var imageRatios = [];
         for (var i = 0; i < this.options.imageSlides.length; i++) {
           var imageFile = this.options.imageSlides[i].params.image.params.file;
-          if (!imageFile) {
-            imageRatios[i] = this.aspectRatio;
-          }
-          else {
-            imageRatios[i] = imageFile.width / imageFile.height;
-          }
+          imageRatios[i] = imageFile.width / imageFile.height;
         }
         imageRatios.sort(function (a, b) {
           return a - b;
