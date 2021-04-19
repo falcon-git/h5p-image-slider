@@ -13,7 +13,7 @@
           "name": "imageSlide",
           "type": "library",
           "options": [
-            "H5P.ImageSlide 1.0"
+            "H5P.ImageSlide 1.1"
           ]
         }
       ]
