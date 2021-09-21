@@ -49,7 +49,7 @@
         },
         {
           "label": "Popisek tlačítka pro předchozí snímek",
-          "default": "Previous Image",
+          "default": "Předchozí obrázek",
           "description": "Používá se pouze pro rčtecí zařízení. Nezobrazí se."
         },
         {
