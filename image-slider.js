@@ -33,6 +33,11 @@ H5P.ImageSlider = (function ($) {
       autoplay: false
     }, options);
 
+    // Filter out slides without image
+    this.options.imageSlides = this.options.imageSlides.filter(function (slide) {
+      return slide.params && slide.params.image && slide.params.image.params && slide.params.image.params.file;
+    });
+
     // Keep provided id.
     this.id = id;
     this.currentSlideId = 0;
