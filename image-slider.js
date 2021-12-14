@@ -139,6 +139,11 @@ H5P.ImageSlider = (function ($) {
       class: 'h5p-image-slider-slides-holder'
     }).appendTo($container);
 
+    this.$screenReaderAnnouncement = $('<div>', {
+      class: 'h5p-image-slider-sr-only',
+      'aria-live': 'polite'
+    }).appendTo(this.$slidesHolder);
+
     this.$slides = $('<div>', {
       class: 'h5p-image-slider-slides'
     }).appendTo(this.$slidesHolder);
@@ -148,6 +153,13 @@ H5P.ImageSlider = (function ($) {
     this.$currentSlide = this.imageSlideHolders[0].addClass('h5p-image-slider-current');
 
     this.attachControls();
+  };
+
+  /**
+   * Update aria-live region with the current image's alt text.
+   */
+  C.prototype.announceCurrentSlide = function () {
+    this.$screenReaderAnnouncement.text(this.imageSlides[this.currentSlideId].image.alt);
   };
 
   /**
@@ -323,6 +335,7 @@ H5P.ImageSlider = (function ($) {
 
     this.$currentSlide = $nextSlide;
 
+    this.announceCurrentSlide();
     this.updateNavButtons();
     this.updateProgressBar();
     return true;
