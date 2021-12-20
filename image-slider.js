@@ -141,7 +141,7 @@ H5P.ImageSlider = (function ($) {
 
     this.$screenReaderAnnouncement = $('<div>', {
       class: 'h5p-image-slider-sr-only',
-      role: 'alert',
+      'aria-atomic': 'true',
       'aria-live': 'polite'
     }).appendTo(this.$slidesHolder);
 
