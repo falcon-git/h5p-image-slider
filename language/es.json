@@ -49,7 +49,7 @@
         },
         {
           "label": "Etiqueta para botones Imagen anterior",
-          "default": "Imagen anterior",
+          "default": "Imagen Anterior",
           "description": "Esto es usado solamente para Lectores de texto en voz alta. No será mostrado."
         },
         {
