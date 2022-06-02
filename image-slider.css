@@ -201,3 +201,14 @@
 .h5p-image-slider-using-mouse .h5p-image-slider-progress-element, .h5p-image-slider-using-mouse .h5p-image-slider-button-text {
   outline: none;
 }
+
+.h5p-image-slider-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

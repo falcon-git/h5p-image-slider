@@ -33,6 +33,11 @@ H5P.ImageSlider = (function ($) {
       }
     }, options);
 
+    // Filter out slides without image
+    this.options.imageSlides = this.options.imageSlides.filter(function (slide) {
+      return slide.params && slide.params.image && slide.params.image.params && slide.params.image.params.file;
+    });
+
     // Keep provided id.
     this.id = id;
     this.currentSlideId = 0;
@@ -144,6 +149,12 @@ H5P.ImageSlider = (function ($) {
       this.$slidesHolder.addClass('h5p-image-slider-no-navigation');
     }
 
+    this.$screenReaderAnnouncement = $('<div>', {
+      class: 'h5p-image-slider-sr-only',
+      'aria-atomic': 'true',
+      'aria-live': 'polite'
+    }).appendTo(this.$slidesHolder);
+
     this.$slides = $('<div>', {
       class: 'h5p-image-slider-slides'
     }).appendTo(this.$slidesHolder);
@@ -184,6 +195,13 @@ H5P.ImageSlider = (function ($) {
         self.autoProgress(seconds);
       }
     }, seconds * 1000);
+  };
+
+  /**
+   * Update aria-live region with the current image's alt text.
+   */
+  C.prototype.announceCurrentSlide = function () {
+    this.$screenReaderAnnouncement.text(this.imageSlides[this.currentSlideId].image.alt);
   };
 
   /**
@@ -376,6 +394,7 @@ H5P.ImageSlider = (function ($) {
 
     this.$currentSlide = $nextSlide;
 
+    this.announceCurrentSlide();
     this.updateNavButtons();
     this.updateProgressBar();
 
