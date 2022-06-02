@@ -61,22 +61,22 @@
       ]
     },
     {
-      "label": "Toegankelijkheid van de afbeeldingsschuiver",
+      "label": "Toegankelijkheid van afbeeldingsschuifregelaar",
       "fields": [
         {
-          "label": "Label voor de afbeeldings-knoppen 'Volgende'",
+          "label": "Label voor \"Volgende dia\"-knoppen",
           "default": "Volgende afbeelding",
-          "description": "Dit wordt alleen gebruikt voor readspeakers. Het wordt niet getoond."
+          "description": "Dit wordt alleen gebruikt voor schermlezers. Het wordt niet getoond."
         },
         {
-          "label": "Label voor de afbeeldings-knoppen 'Vorige'",
+          "label": "Label voor \"Vorige dia\"-knoppen",
           "default": "Vorige afbeelding",
-          "description": "Dit wordt alleen gebruikt voor readspeakers. Het wordt niet getoond."
+          "description": "Dit wordt alleen gebruikt voor schermlezers. Het wordt niet getoond."
         },
         {
-          "label": "Label voor de afbeeldings-knoppen",
+          "label": "Label voor \"Dia\"-knoppen",
           "default": "Ga naar afbeelding %slide",
-          "description": "Dit wordt alleen gebruikt voor readspeakers. Het wordt niet getoond. %slide is een variabele en zal worden vervagen door het afbeeldingsnummer."
+          "description": "Dit wordt alleen gebruikt voor schermlezers. Het wordt niet getoond. %slide is een variabele en zal worden vervangen door het afbeeldingsnummer."
         }
       ]
     }

@@ -16,7 +16,7 @@
       }
     },
     {
-      "label": "Proporção de ecrã",
+      "label": "Proporção",
       "description": "Automático significa proporção fixa determinada automaticamente com base nas imagens",
       "options": [
         {
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "label": "Configurações da proporção de ecrã",
+      "label": "Configurações da proporção do ecrã",
       "fields": [
         {
           "label": "Largura",
