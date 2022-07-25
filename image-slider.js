@@ -256,14 +256,21 @@ H5P.ImageSlider = (function ($) {
    */
   C.prototype.createProgressBarElement = function(index) {
     var self = this;
-    var $progressBarElement = $('<li>', {
-      class: 'h5p-image-slider-progress-element',
+    
+    var $progressBarButton = $('<div>', {
+      class: 'h5p-image-slider-progress-button',
       role: 'button',
       "aria-label": self.options.a11y.gotoSlide.replace('%slide', index + 1),
       tabindex: 0,
     });
 
-    C.handleButtonClick($progressBarElement, function() {
+    var $progressBarElement = $('<li>', {
+      class: 'h5p-image-slider-progress-element',
+    });
+
+    $progressBarElement.append($progressBarButton);
+
+    C.handleButtonClick($progressBarButton, function() {
       self.gotoSlide(index);
     });
 
