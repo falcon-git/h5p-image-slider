@@ -257,9 +257,8 @@ H5P.ImageSlider = (function ($) {
   C.prototype.createProgressBarElement = function(index) {
     var self = this;
     
-    var $progressBarButton = $('<div>', {
+    var $progressBarButton = $('<button>', {
       class: 'h5p-image-slider-progress-button',
-      role: 'button',
       "aria-label": self.options.a11y.gotoSlide.replace('%slide', index + 1),
       tabindex: 0,
     });
@@ -394,8 +393,13 @@ H5P.ImageSlider = (function ($) {
    * and reposition the progress bar
    */
   C.prototype.updateProgressBar = function () {
-    $('.h5p-image-slider-current-progress-element', this.$container).removeClass('h5p-image-slider-current-progress-element');
-    $('.h5p-image-slider-progress-element', this.$container).eq(this.currentSlideId).addClass('h5p-image-slider-current-progress-element');
+    const oldProgressElement = $('.h5p-image-slider-current-progress-element', this.$container).removeClass('h5p-image-slider-current-progress-element');
+    const newProgressElement = $('.h5p-image-slider-progress-element', this.$container).eq(this.currentSlideId).addClass('h5p-image-slider-current-progress-element');
+    
+    if (oldProgressElement.children('.h5p-image-slider-progress-button').is(':focus')) {
+      newProgressElement.children('.h5p-image-slider-progress-button').focus();
+    }
+
     var heightInPercent = this.$currentSlide.height() / this.$slides.height() * 100;
     $('.h5p-image-slider-progress', this.$container).css('top', heightInPercent + '%');
   };
