@@ -143,6 +143,7 @@
 	border: none;
 	padding: 0;
 	font: inherit;
+  cursor: pointer;
 }
 
 .h5p-image-slide-holder {
