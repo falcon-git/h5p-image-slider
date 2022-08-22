@@ -3,7 +3,7 @@
     {
       "label": "Imágenes",
       "field": {
-        "label": "Página con Imagen",
+        "label": "Pase de diapositivas",
         "fields": [
           {
             "label": "Página con Imagen"
@@ -17,7 +17,7 @@
     },
     {
       "label": "Proporción de aspecto",
-      "description": "Automático significa proporción de aspecto fija determinada automáticamente basada en las imágenes",
+      "description": "Automático significa proporción de aspecto fija, determinada automáticamente y basada en las imágenes",
       "options": [
         {
           "label": "Automática"
@@ -31,15 +31,15 @@
       ]
     },
     {
-      "label": "Configuraciones de Proporción de aspecto",
+      "label": "Configuración de Proporción de aspecto",
       "fields": [
         {
-          "label": "Ancho de proporción de aspecto",
-          "description": "Si usa 4 aquí, y 3 para la altura, la proporción de aspecto será de 4:3"
+          "label": "Anchura de proporción de aspecto",
+          "description": "Si usas 4 aquí, y 3 para la altura, la proporción de aspecto será de 4:3"
         },
         {
           "label": "Altura de proporción de aspecto",
-          "description": "Si usa 3 aquí, y 4 para el ancho, la proporción de aspecto será de be 4:3"
+          "description": "Si usas 3 aquí, y 4 para el ancho, la proporción de aspecto será de be 4:3"
         }
       ]
     },
@@ -61,22 +61,22 @@
       ]
     },
     {
-      "label": "Accesibilidad de deslizador de imagen",
+      "label": "Accesibilidad del pase de diapositivas",
       "fields": [
         {
           "label": "Etiqueta para botones de Imagen Siguiente",
           "default": "Imagen Siguiente",
-          "description": "Esto es usado solamente para Lectores de texto en voz alta. No será mostrado."
+          "description": "Usado solamente para lectores de pantalla. No se mostrará."
         },
         {
           "label": "Etiqueta para botones Imagen anterior",
           "default": "Imagen Anterior",
-          "description": "Esto es usado solamente para Lectores de texto en voz alta. No será mostrado."
+          "description": "Usado solamente para lectores de pantalla. No se mostrará."
         },
         {
-          "label": "Etiqueta para botones de página",
+          "label": "Etiqueta para botones de diapositiva",
           "default": "Ir a la imagen %slide",
-          "description": "Esto es usado solamente para Lectores de texto en voz alta. No será mostrado. %slide es una variable y será remplazado con el número de la imagen."
+          "description": "Usado solamente para lectores de pantalla. No se mostrará. %slide es una variable y será reemplazada por el número de la imagen."
         }
       ]
     }

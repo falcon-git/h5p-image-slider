@@ -132,6 +132,20 @@
   background: no-repeat url('images/circle-active.svg');
 }
 
+.h5p-image-slider-progress-button {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  /* Disable default button style */
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
 .h5p-image-slide-holder {
   float: left;
   margin-left: -100%;
