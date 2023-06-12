@@ -400,6 +400,9 @@ H5P.ImageSlider = (function ($) {
       newProgressElement.children('.h5p-image-slider-progress-button').focus();
     }
 
+    oldProgressElement.children('.h5p-image-slider-progress-button').attr('aria-current', 'false');
+    newProgressElement.children('.h5p-image-slider-progress-button').attr('aria-current', 'true');
+
     var heightInPercent = this.$currentSlide.height() / this.$slides.height() * 100;
     $('.h5p-image-slider-progress', this.$container).css('top', heightInPercent + '%');
   };
