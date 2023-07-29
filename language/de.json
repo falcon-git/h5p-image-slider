@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Bild"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,23 @@
         {
           "label": "Relative Höhe",
           "description": "Wenn du hier 3 und für die Breite 4 verwendest, beträgt das Seitenverhältnis 4:3"
+        }
+      ]
+    },
+    {
+      "label": "Autoplay",
+      "description": "Check if the audio should try to play automatically when opening the content"
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

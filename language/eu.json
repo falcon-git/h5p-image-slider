@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Irudien Aurkezpena"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,23 @@
         {
           "label": "Itxura-proportzioaren altuera",
           "description": "Hemen 3 eta zabaleran 4 jartzen baduzu itxura-proportzioa 4:3 izango da"
+        }
+      ]
+    },
+    {
+      "label": "Autoplay",
+      "description": "Check if the audio should try to play automatically when opening the content"
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

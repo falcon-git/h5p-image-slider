@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Página con Imagen"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,27 @@
         {
           "label": "Altura de proporción de aspecto",
           "description": "Si usa 3 aquí, y 4 para el ancho, la proporción de aspecto será de be 4:3"
+        },
+        {
+          "label": "Autoplay",
+          "description": "Check if the audio should try to play automatically when opening the content"
+        }
+      ]
+    },
+    {
+      "label": "Autoplay",
+      "description": "Check if the audio should try to play automatically when opening the content"
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

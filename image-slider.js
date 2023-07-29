@@ -21,11 +21,16 @@ H5P.ImageSlider = (function ($) {
         prevSlide: 'Previous Image',
         gotoSlide: 'Go to image %slide'
       },
+      l10n: {
+        mute: 'Mute audio',
+        unmute: 'Unmute audio'
+      },
       aspectRatioMode: 'auto',
       aspectRatio: {
         aspectWidth: 4,
         aspectHeight: 3
-      }
+      },
+      autoplay: false
     }, options);
 
     // Filter out slides without image
@@ -38,16 +43,26 @@ H5P.ImageSlider = (function ($) {
     this.currentSlideId = 0;
     this.imageSlides = [];
     this.imageSlideHolders = [];
+    this.audios = [];
+    this.muted = false;
+
+    // Filter out slides without images
+    this.options.imageSlides = this.options.imageSlides.filter(function (slide) {
+      return slide.imageSlide && slide.imageSlide.params && slide.imageSlide.params.image && slide.imageSlide.params.image.params && slide.imageSlide.params.image.params.file;
+    });
+
     this.determineAspectRatio();
 
     for (var i = 0; i < this.options.imageSlides.length; i++) {
-      this.imageSlides[i] = H5P.newRunnable(this.options.imageSlides[i], this.id, undefined, undefined, {
+      this.imageSlides[i] = H5P.newRunnable(this.options.imageSlides[i].imageSlide, this.id, undefined, undefined, {
         aspectRatio: this.aspectRatio
       });
       this.imageSlides[i].on('loaded', function() {
         self.trigger('resize');
       });
       this.imageSlideHolders[i] = false;
+
+      this.audios = this.createAudios(this.options.imageSlides);
     }
 
     this.on('enterFullScreen', function() {
@@ -80,6 +95,33 @@ H5P.ImageSlider = (function ($) {
   C.prototype.constructor = C;
 
   /**
+   * Create audio elements from items.
+   * @param {object[]} items Items from params.
+   * @return {object[]} Audio elements.
+   */
+  C.prototype.createAudios = function (items) {
+    const that = this;
+    const audioElements = [];
+
+    items.forEach(function (item) {
+      if (!item.audio || item.audio.length < 1 || !item.audio[0].path) {
+        audioElements.push(null);
+        return;
+      }
+
+      const player = document.createElement('audio');
+      player.style.display = 'none';
+      player.src = H5P.getPath(item.audio[0].path, that.id);
+      audioElements.push({
+        player: player,
+        promise: null
+      });
+    });
+
+    return audioElements;
+  };
+
+  /**
    * Set the aspect ratio for this image-slider
    */
   C.prototype.determineAspectRatio = function() {
@@ -91,7 +133,7 @@ H5P.ImageSlider = (function ($) {
       case 'auto':
         var imageRatios = [];
         for (var i = 0; i < this.options.imageSlides.length; i++) {
-          var imageFile = this.options.imageSlides[i].params.image.params.file;
+          var imageFile = this.options.imageSlides[i].imageSlide.params.image.params.file;
           imageRatios[i] = imageFile.width / imageFile.height;
         }
         imageRatios.sort(function (a, b) {
@@ -120,6 +162,8 @@ H5P.ImageSlider = (function ($) {
    * @param {jQuery} $container
    */
   C.prototype.attach = function ($container) {
+    const that = this;
+
     this.$container = $container;
     // Set class on container to identify it as a greeting card
     // container.  Allows for styling later.
@@ -150,8 +194,32 @@ H5P.ImageSlider = (function ($) {
     }).appendTo(this.$slidesHolder);
 
     this.loadImageSlides();
+    this.addAudios();
 
     this.$currentSlide = this.imageSlideHolders[0].addClass('h5p-image-slider-current');
+
+    // If there's audio, we need a button to toggle it.
+    if (this.audios.some(function (audio) {
+      return audio !== null;
+    })) {
+      this.buttonAudio = document.createElement('button');
+      this.buttonAudio.classList.add('h5p-image-slider-audio-button');
+      this.buttonAudio.classList.add('unmuted');
+      this.buttonAudio.addEventListener('click', function () {
+        const muted = that.toggleButtonAudio();
+        if (!muted) {
+          that.playAudio(that.currentSlideId);
+        }
+        else {
+          that.stopAudios();
+        }
+      });
+      this.$slidesHolder.get(0).appendChild(this.buttonAudio);
+    }
+
+    if (this.audios[0] && this.options.autoplay) {
+      this.playAudio(0);
+    }
 
     this.attachControls();
   };
@@ -204,8 +272,111 @@ H5P.ImageSlider = (function ($) {
         }
         this.imageSlides[i].attach(this.imageSlideHolders[i]);
         this.$slides.append(this.imageSlideHolders[i]);
+
+        if (this.audios[i]) {
+          this.imageSlideHolders[i].get(0).appendChild(this.audios[i].player);
+        }
       }
     }
+  };
+
+  /**
+   * Add audios.
+   */
+  C.prototype.addAudios = function() {
+    const that = this;
+
+    this.imageSlideHolders.forEach( function (holder, index) {
+      if (that.audios[index]) {
+        if (!holder) {
+          return; // Not yet loaded
+        }
+
+        holder.get(0).appendChild(that.audios[index].player);
+      }
+    });
+  };
+
+  /**
+   * Start audio.
+   * @param {number} id Index.
+   */
+  C.prototype.playAudio = function (id) {
+    if (this.audios.length <= id) {
+      return;
+    }
+
+    const currentAudio = this.audios[id];
+    if (!currentAudio) {
+      return;
+    }
+
+    // People might slide quickly ...
+    if (!currentAudio.promise) {
+      currentAudio.promise = currentAudio.player.play();
+      currentAudio.promise
+        .then(() => {
+          currentAudio.promise = null;
+        })
+        .catch(() => {
+          // Browser policy prevents playing
+          currentAudio.promise = null;
+          this.toggleButtonAudio(true);
+        });
+    }
+  };
+
+  /**
+   * Stop audios
+   */
+  C.prototype.stopAudios = function () {
+    /*
+     * People may switch the images quickly, and audios that should
+     * be stopped may not have loaded yet.
+     */
+    this.audios.forEach(audio => {
+      if (!audio) {
+        return; // skip, no audio
+      }
+
+      if (audio.promise) {
+        audio.promise.then(() => {
+          audio.player.pause();
+          audio.player.load(); // Reset
+          audio.promise = null;
+        });
+      }
+      else {
+        audio.player.pause();
+        audio.player.load(); // Reset
+      }
+    });
+  };
+
+  /**
+   * Toggle audio button mute state.
+   * @param {boolean} [muted] If set, will override toggling.
+   * @param {boolean} True, if muted, else false.
+   */
+  C.prototype.toggleButtonAudio = function (muted) {
+    if (!this.buttonAudio) {
+      return;
+    }
+
+    this.muted = (typeof muted === 'boolean') ? muted : !this.muted;
+
+    if (this.muted) {
+      this.buttonAudio.classList.remove('unmuted');
+      this.buttonAudio.classList.add('muted');
+      this.buttonAudio.title = this.options.l10n.unmute;
+    }
+    else {
+      this.buttonAudio.classList.add('unmuted');
+      this.buttonAudio.classList.remove('muted');
+      this.buttonAudio.title = this.options.l10n.mute;
+    }
+
+    return this.muted;
   };
 
   /**
@@ -339,6 +510,11 @@ H5P.ImageSlider = (function ($) {
         .addClass('h5p-image-slider-current')
         .removeAttr('aria-hidden');
     }, 1);
+
+    if (!this.muted) {
+      this.stopAudios();
+      this.playAudio(slideId);
+    }
 
     this.$currentSlide = $nextSlide;
 

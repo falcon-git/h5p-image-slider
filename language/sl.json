@@ -7,6 +7,10 @@
         "fields": [
           {
             "label": "Slikovni drsnik"
+          },
+          {
+            "label": "Audio",
+            "description": "Optional audio that plays when an image is shown."
           }
         ]
       }
@@ -36,6 +40,23 @@
         {
           "label": "Višina stranice",
           "description": "Pri razmerju stranic 4:3 se pod višino vnese 3."
+        }
+      ]
+    },
+    {
+      "label": "Autoplay",
+      "description": "Check if the audio should try to play automatically when opening the content"
+    },
+    {
+      "label": "Localize",
+      "fields": [
+        {
+          "label": "Mute audio",
+          "default": "Mute audio"
+        },
+        {
+          "label": "Unmute audio",
+          "default": "Unmute audio"
         }
       ]
     },

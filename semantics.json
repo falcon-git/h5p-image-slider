@@ -15,6 +15,14 @@
           "options": [
             "H5P.ImageSlide 1.1"
           ]
+        },
+        {
+          "label": "Audio",
+          "name": "audio",
+          "description": "Optional audio that plays when an image is shown.",
+          "type": "audio",
+          "optionsl": true,
+          "widgetExtensions": ["AudioRecorder"]
         }
       ]
     }
@@ -68,6 +76,36 @@
         "type": "number",
         "default": 3,
         "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
+      }
+    ]
+  },
+  {
+    "label": "Autoplay",
+    "name": "autoplay",
+    "type": "boolean",
+    "default": false,
+    "description": "Check if the audio should try to play automatically when opening the content"
+  },
+  {
+    "name": "l10n",
+    "type": "group",
+    "common": true,
+    "label": "Localize",
+    "importance": "low",
+    "fields": [
+      {
+        "name": "mute",
+        "type": "text",
+        "label": "Mute audio",
+        "importance": "low",
+        "default": "Mute audio"
+      },
+      {
+        "name": "unmute",
+        "type": "text",
+        "label": "Unmute audio",
+        "importance": "low",
+        "default": "Unmute audio"
       }
     ]
   },
