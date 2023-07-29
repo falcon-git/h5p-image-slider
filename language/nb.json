@@ -12,30 +12,63 @@
       }
     },
     {
-      "label": "Aspect ratio",
-      "description": "Automatic means fixed aspect ratio automatically determined based on the images",
-      "options": [
-        {
-          "label": "Automatic"
-        },
-        {
-          "label": "Custom"
-        },
-        {
-          "label": "Not fixed"
-        }
-      ]
-    },
-    {
-      "label": "Aspect Ratio Settings",
+      "label": "Behavioural settings",
+      "description": "These options will let you control how the task behaves.",
       "fields": [
         {
-          "label": "Aspect ratio width",
-          "description": "If you use 4 here, and 3 for the height the aspect ratio will be 4:3"
+          "label": "Aspect ratio",
+          "description": "Automatic means fixed aspect ratio automatically determined based on the images",
+          "default": "auto",
+          "options": [
+            {
+              "label": "Automatic"
+            },
+            {
+              "label": "Custom"
+            },
+            {
+              "label": "Not fixed"
+            }
+          ]
         },
         {
-          "label": "Aspect ratio height",
-          "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
+          "label": "Aspect Ratio Settings",
+          "showWhen": {
+            "rules": [
+              {}
+            ]
+          },
+          "fields": [
+            {
+              "label": "Aspect ratio width",
+              "description": "If you use 4 here, and 3 for the height the aspect ratio will be 4:3"
+            },
+            {
+              "label": "Aspect ratio height",
+              "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
+            }
+          ]
+        },
+        {
+          "label": "Loop",
+          "description": "If set, slider will progress from last image to first image and vice versa"
+        },
+        {
+          "label": "Automatic progression",
+          "description": "If set, slider will progress to next slide automatically after a configurable time period"
+        },
+        {
+          "label": "Progression time",
+          "description": "If a time period is set (in seconds), the slider will progress to the next slide automatically after that time period.",
+          "showWhen": {
+            "rules": [
+              {}
+            ]
+          }
+        },
+        {
+          "label": "Hide navigation",
+          "description": "If set, navigation will work, but items used for navigation are hidden."
         }
       ]
     },

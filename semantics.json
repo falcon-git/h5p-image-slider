@@ -20,54 +20,101 @@
     }
   },
   {
-    "label": "Aspect ratio",
-    "name": "aspectRatioMode",
-    "type": "select",
-    "description": "Automatic means fixed aspect ratio automatically determined based on the images",
-    "default": "auto",
-    "options": [
-      {
-        "value": "auto",
-        "label": "Automatic"
-      },
-      {
-        "value": "custom",
-        "label": "Custom"
-      },
-      {
-        "value": "notFixed",
-        "label": "Not fixed"
-      }
-    ]
-  },
-  {
-    "label": "Aspect Ratio Settings",
-    "name": "aspectRatio",
+    "name": "behaviour",
     "type": "group",
-    "widget": "showWhen",
-    "expanded": true,
-    "showWhen": {
-      "rules": [
-        {
-          "field": "aspectRatioMode",
-          "equals": "custom"
-        }
-      ]
-    },
+    "label": "Behavioural settings",
+    "importance": "low",
+    "description": "These options will let you control how the task behaves.",
     "fields": [
       {
-        "label": "Aspect ratio width",
-        "name": "aspectWidth",
-        "type": "number",
-        "default": 4,
-        "description": "If you use 4 here, and 3 for the height the aspect ratio will be 4:3"
+        "label": "Aspect ratio",
+        "name": "aspectRatioMode",
+        "type": "select",
+        "description": "Automatic means fixed aspect ratio automatically determined based on the images",
+        "default": "auto",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Automatic"
+          },
+          {
+            "value": "custom",
+            "label": "Custom"
+          },
+          {
+            "value": "notFixed",
+            "label": "Not fixed"
+          }
+        ]
       },
       {
-        "label": "Aspect ratio height",
-        "name": "aspectHeight",
+        "label": "Aspect Ratio Settings",
+        "name": "aspectRatio",
+        "type": "group",
+        "widget": "showWhen",
+        "expanded": true,
+        "showWhen": {
+          "rules": [
+            {
+              "field": "aspectRatioMode",
+              "equals": "custom"
+            }
+          ]
+        },
+        "fields": [
+          {
+            "label": "Aspect ratio width",
+            "name": "aspectWidth",
+            "type": "number",
+            "default": 4,
+            "description": "If you use 4 here, and 3 for the height the aspect ratio will be 4:3"
+          },
+          {
+            "label": "Aspect ratio height",
+            "name": "aspectHeight",
+            "type": "number",
+            "default": 3,
+            "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
+          }
+        ]
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "label": "Loop",
+        "description": "If set, slider will progress from last image to first image and vice versa",
+        "default": false
+      },
+      {
+        "name": "autoProgress",
+        "type": "boolean",
+        "label": "Automatic progression",
+        "description": "If set, slider will progress to next slide automatically after a configurable time period",
+        "default": false
+      },
+      {
+        "name": "progressionTime",
         "type": "number",
-        "default": 3,
-        "description": "If you use 3 here, and 4 for the width the aspect ratio will be 4:3"
+        "label": "Progression time",
+        "description": "If a time period is set (in seconds), the slider will progress to the next slide automatically after that time period.",
+        "default": 5,
+        "min": 1,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "autoProgress",
+              "equals": true
+            }
+          ]
+        }
+      },
+      {
+        "name": "hideNavigation",
+        "type": "boolean",
+        "label": "Hide navigation",
+        "description": "If set, navigation will work, but items used for navigation are hidden.",
+        "default": false
       }
     ]
   },
