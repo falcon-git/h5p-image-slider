@@ -149,6 +149,19 @@ H5P.ImageSlider = (function ($) {
       class: 'h5p-image-slider-slides'
     }).appendTo(this.$slidesHolder);
 
+    // If the H5P is embedded e.g. inside a non H5P accordion, the
+    // slides DOM element might end up with no height. Using a
+    // intersectionOberver to overcome this issue.
+    const observer = new IntersectionObserver(() => {
+      if(this.$slides.height() === 0) {
+        this.trigger('resize');
+        observer.disconnect();
+      }
+    }, {
+      threshold: [0]
+    });
+    observer.observe($container.get(0));
+
     this.loadImageSlides();
 
     this.$currentSlide = this.imageSlideHolders[0].addClass('h5p-image-slider-current');
