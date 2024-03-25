@@ -153,7 +153,7 @@ H5P.ImageSlider = (function ($) {
     // slides DOM element might end up with no height. Using a
     // intersectionOberver to overcome this issue.
     const observer = new IntersectionObserver(() => {
-      if(this.$slides.height() === 0) {
+      if (this.$slides.height() === 0) {
         this.trigger('resize');
         observer.disconnect();
       }
