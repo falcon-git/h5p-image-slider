@@ -21,10 +21,15 @@ H5P.ImageSlider = (function ($) {
         prevSlide: 'Previous Image',
         gotoSlide: 'Go to image %slide'
       },
-      aspectRatioMode: 'auto',
-      aspectRatio: {
-        aspectWidth: 4,
-        aspectHeight: 3
+      behaviour: {
+        aspectRatioMode: 'auto',
+        aspectRatio: {
+          aspectWidth: 4,
+          aspectHeight: 3
+        },
+        loop: false,
+        progressionTime: 0,
+        hideNavigation: false
       }
     }, options);
 
@@ -61,7 +66,8 @@ H5P.ImageSlider = (function ($) {
       var fullScreenOn = self.$container.hasClass('h5p-fullscreen') || self.$container.hasClass('h5p-semi-fullscreen');
       if (fullScreenOn) {
         self.$slides.css('height', '');
-        var newAspectRatio = window.innerWidth / (window.innerHeight - self.$progressBar.outerHeight());
+        const heightProgressBar = self.$progressBar ? self.$progressBar.outerHeight() : 0;
+        var newAspectRatio = window.innerWidth / (window.innerHeight - heightProgressBar);
         for (var i = 0; i < self.imageSlides.length; i++) {
           self.imageSlides[i].setAspectRatio(newAspectRatio);
         }
@@ -87,7 +93,7 @@ H5P.ImageSlider = (function ($) {
     this.aspectRatio = 4/3;
 
     // Try to identify aspectRatio according to settings
-    switch (this.options.aspectRatioMode) {
+    switch (this.options.behaviour.aspectRatioMode) {
       case 'auto':
         var imageRatios = [];
         for (var i = 0; i < this.options.imageSlides.length; i++) {
@@ -102,8 +108,8 @@ H5P.ImageSlider = (function ($) {
         break;
 
       case 'custom':
-        if (this.options.aspectRatio.aspectWidth && this.options.aspectRatio.aspectHeight) {
-          this.aspectRatio = this.options.aspectRatio.aspectWidth / this.options.aspectRatio.aspectHeight;
+        if (this.options.behaviour.aspectRatio.aspectWidth && this.options.behaviour.aspectRatio.aspectHeight) {
+          this.aspectRatio = this.options.behaviour.aspectRatio.aspectWidth / this.options.behaviour.aspectRatio.aspectHeight;
         }
         break;
 
@@ -139,6 +145,10 @@ H5P.ImageSlider = (function ($) {
       class: 'h5p-image-slider-slides-holder'
     }).appendTo($container);
 
+    if (this.options.behaviour.hideNavigation) {
+      this.$slidesHolder.addClass('h5p-image-slider-no-navigation');
+    }
+
     this.$screenReaderAnnouncement = $('<div>', {
       class: 'h5p-image-slider-sr-only',
       'aria-atomic': 'true',
@@ -167,6 +177,37 @@ H5P.ImageSlider = (function ($) {
     this.$currentSlide = this.imageSlideHolders[0].addClass('h5p-image-slider-current');
 
     this.attachControls();
+
+    // Auto progression
+    this.options.behaviour.progressionTime = this.options.behaviour.autoProgress ? this.options.behaviour.progressionTime : 0;
+    this.autoProgress(this.options.behaviour.progressionTime);
+  };
+
+  /**
+   * Auto progress after a certain time period.
+   *
+   * @param {number} seconds Time period in seconds, at least 1.
+   */
+  C.prototype.autoProgress = function(seconds) {
+    if (!(seconds > 0)) {
+      return;
+    }
+
+    const self = this;
+
+    // Reset timer if running already
+    if (this.progressionTimer) {
+      clearTimeout(this.progressionTimer);
+    }
+
+    this.progressionTimer = setTimeout(function() {
+      const success = self.gotoSlide(self.currentSlideId + 1);
+
+      // Stop progression if we can't continue.
+      if (success) {
+        self.autoProgress(seconds);
+      }
+    }, seconds * 1000);
   };
 
   /**
@@ -226,8 +267,8 @@ H5P.ImageSlider = (function ($) {
    */
   C.prototype.attachControls = function() {
     var self = this;
-    this.$leftButton = this.createControlButton(this.options.a11y.prevSlide, 'left');
-    this.$rightButton = this.createControlButton(this.options.a11y.nextSlide, 'right');
+    this.$leftButton = this.createControlButton(this.options.a11y.prevSlide, 'left', this.options.behaviour.hideNavigation);
+    this.$rightButton = this.createControlButton(this.options.a11y.nextSlide, 'right', this.options.behaviour.hideNavigation);
     C.handleButtonClick(this.$leftButton, function () {
       if (!self.dragging) {
         self.gotoSlide(self.currentSlideId - 1);
@@ -243,7 +284,9 @@ H5P.ImageSlider = (function ($) {
     this.$slidesHolder.append(this.$leftButton);
     this.$slidesHolder.append(this.$rightButton);
     this.updateNavButtons();
-    this.attachProgressBar();
+    if (!this.options.behaviour.hideNavigation) {
+      this.attachProgressBar();
+    }
     this.initDragging();
     this.initKeyEvents();
   };
@@ -297,9 +340,10 @@ H5P.ImageSlider = (function ($) {
    *
    * @param {string} text - label for the button
    * @param {string} dir - next or prev
+   * @param {boolean} hidden - hide text
    * @return {jQuery} control button
    */
-  C.prototype.createControlButton = function(text, dir) {
+  C.prototype.createControlButton = function(text, dir, hidden) {
     var $controlButton = $('<div>', {
       class: 'h5p-image-slider-button ' + 'h5p-image-slider-' + dir + '-button',
     });
@@ -315,6 +359,11 @@ H5P.ImageSlider = (function ($) {
       'role': 'button',
       'tabindex': 0
     });
+
+    if (hidden) {
+      $controlText.addClass('h5p-image-slider-no-navigation');
+    }
+
     $controlButton.append($controlText);
 
     return $controlButton;
@@ -327,9 +376,18 @@ H5P.ImageSlider = (function ($) {
    * @return {Boolean} false if failed(typically the slide didn't exist), true if not
    */
   C.prototype.gotoSlide = function(slideId) {
-    if (slideId < 0 || slideId >= this.imageSlideHolders.length) {
+    if ((slideId < 0 || slideId >= this.imageSlideHolders.length) && !this.options.behaviour.loop) {
       return false;
     }
+
+    // Loop to first/last slide
+    if (slideId < 0) {
+      slideId = this.imageSlideHolders.length - 1;
+    }
+    else if (slideId >= this.imageSlideHolders.length) {
+      slideId = 0;
+    }
+
     $('.h5p-image-slider-removing', this.$container).removeClass('.h5p-image-slider-removing');
     var nextSlideDirection = (this.currentSlideId < slideId) ? 'future' : 'past';
     var prevSlideDirection = nextSlideDirection === 'past' ? 'future' : 'past';
@@ -358,6 +416,10 @@ H5P.ImageSlider = (function ($) {
     this.announceCurrentSlide();
     this.updateNavButtons();
     this.updateProgressBar();
+
+    // Reset auto progress timer
+    this.autoProgress(this.options.behaviour.progressionTime);
+
     return true;
   };
 
@@ -378,13 +440,13 @@ H5P.ImageSlider = (function ($) {
    * Updates all navigation buttons, typically toggling and positioning
    */
   C.prototype.updateNavButtons = function() {
-    if (this.currentSlideId >= this.imageSlides.length - 1) {
+    if (this.currentSlideId >= this.imageSlides.length - 1 && !this.options.behaviour.loop) {
       this.$rightButton.hide();
     }
     else {
       this.$rightButton.show();
     }
-    if (this.currentSlideId <= 0) {
+    if (this.currentSlideId <= 0 && !this.options.behaviour.loop) {
       this.$leftButton.hide();
     }
     else {
